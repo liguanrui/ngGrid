@@ -100,7 +100,75 @@ angular.module("template/mcInput.html", []).run(["$templateCache", function($tem
 ***********************************************/
 angular.module('ui.mcGrid', ["template/mcGrid.html"])
 
-.controller('mcGridController', ['$scope', '$attrs', function ($scope, $attrs) {
+.controller('mcGridController', ['$http','$scope', '$attrs', function ($http, $scope, $attrs) {
+	/**
+	 * @label 触发选择
+	 */
+	$scope.isChosen={};
+	$scope.chosenFn = function (key, item){
+		if(  $scope.isChosen[key] ){
+			$scope.isChosen = {};
+		    $scope.chosen = null ;
+		    $scope.isChosen[key] = false;
+		}else{
+			$scope.isChosen = {};
+			$scope.chosen = item ;
+			$scope.isChosen[key] = true;
+		}
+	}
+	
+	 /**
+	 * @label 封装post方法
+	 */
+	 function angularPost(data, dataUrl, successFn){
+		 if(!angular.isDefined(data)){
+			 showTips("不允许提交的数据为空!");
+			 return false;
+		 }
+		 if(!angular.isDefined(dataUrl)){
+			 showTips("不存在可用的提交接口或方法!");
+			 return false;
+		 }
+		 $http({
+			    url: dataUrl,
+			    method: "post",
+			    data : $.param( data ),
+	  		    headers : { 'Content-Type' : 'application/x-www-form-urlencoded'},
+		 }).success(successFn);
+	 }
+
+	 /**
+	  * @label 新增
+	  */
+	$scope.addItem={};
+	$scope.add = function(){
+		angularPost($scope.addItem, $scope.options.addBtn.postUrl, successFn);
+	}
+	
+	/**
+	 * @label 更新
+	 */
+	$scope.update = function(){
+		angularPost($scope.chosen, $scope.options.updateBtn.postUrl, successFn);
+	}
+	
+	/**
+	 * @label 删除
+	 */
+	$scope.del = function(){
+		angularPost($scope.chosen, $scope.options.deleteBtn.postUrl, successFn);
+	}
+	
+	/**
+	 * @label 成功统一返回的参数
+	 */
+	function successFn(json){
+		console.log(json);
+		showTips(json.msg);
+		if(json.status==1){
+			
+		}
+	}
 	
 }])
 
@@ -116,10 +184,12 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 			scope: {
 				options: "=",
 				source: "=",
+				chosen: "=",
 			},
 			controller:'mcGridController',
 			templateUrl: 'template/mcGrid.html',
 			link: function (scope,element, attrs) {
+				//想实现一个模板，可惜把握不好@TODO
 				/*angular.forEach(scope.options.columnDefs, function (item, index) {
 					if(!item.cellTemplate){
 						scope.options.columnDefs[index]['cellTemplate']="<span ng-bind='row[col.field]'></span>";
@@ -136,19 +206,52 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 		"<table class='table table-bordered table-striped'>\n"+
 		"		<thead>" +
 		"			<tr>"+
-		"				<th ng-repeat='item in options.columnDefs' ng-bind='item.displayName'></th>"+
+		"				<th ng-repeat='item in options.columnDefs' ng-bind='item.name'></th>"+
 		"			</tr>" +
 		"		</thead>"+
 		"		<tbody>"+
-		"			<tr ng-repeat='(rowIndex,row) in source'>"+
+		"			<tr ng-repeat='(rowIndex,row) in source' ng-click='chosenFn(rowIndex,row)'  ng-class='{danger: isChosen[rowIndex]}'>"+
 		"				<td ng-repeat='(colIndex,col) in options.columnDefs'>" +
-		"						<span ng-if='!col.selectOption' ng-bind='row[col.field]'></span>"+
-		"						<span ng-if='col.selectOption' ng-bind='col.selectOption[row[col.field]]'></span>"+
+		"						<span ng-if=\"col.type!='select'\" ng-bind='row[col.key]'></span>"+
+		"						<span ng-if=\"col.type=='select'\" ng-bind='col.arr[row[col.key]]'></span>"+
 		//"					<span ng-if='!col.cellTemplate' ng-bind='row[col.field]'></span>" +
 		//"					<span ng-if='col.cellTemplate'  ng-bind-html='col.cellTemplate|showHtml'> </span>" +
 		"				</td>"+
 		"			</tr>"+
 		"</table>\n"+
+		"<!-- 新增模态框 -->"+
+		"<div mc-model  ng-if='options.addBtn' modelid='{{options.addBtn.nodeId}}'  modelhead='{{options.addBtn.label}}'  modelsize='{{option.addBtn.size}}'>"+
+	    "      <div class='modal-body'>"+
+	    "             <div mc-edit  column='options.columnDefs'  param='addItem'></div>"+
+      	"	   </div>"+
+        "       <div class='modal-footer'>"+
+        "          	<button type='button' class='btn btn-primary'  ng-click='add()'>保存</button>"+
+        "       </div>"+
+		"</div>"+
+		"<!-- 更新模态框 -->"+
+		"<div mc-model  ng-if='options.updateBtn' modelid='{{options.updateBtn.nodeId}}'  modelhead='{{options.updateBtn.label}}'  modelsize='{{option.updateBtn.size}}'>"+
+		"      <div class='modal-body'>"+
+		"             <div mc-edit  column='options.columnDefs'  param='chosen'></div>"+
+		"	   </div>"+
+		"       <div class='modal-footer'>"+
+		"          	<button type='button' class='btn btn-primary'  ng-click='update()'>保存</button>"+
+		"       </div>"+
+		"</div>"+
+		"<!-- 删除模态框 -->"+
+		"<div mc-model  ng-if='options.deleteBtn' modelid='{{options.deleteBtn.nodeId}}'  modelhead='{{options.deleteBtn.label}}'  modelsize='{{option.deleteBtn.size}}'>"+
+		"      <div class='modal-body'>"+
+		"			  <h5 class='text-danger'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> 确定要删除该条数据？</h5>"+	
+		"             <table class='table table-striped table-hover'>" +
+		"				  <tr ng-repeat='(k,v) in options.columnDefs'>" +
+		"					<td ng-bind='v.name'></td>" +
+		"					<td ng-bind='chosen[v.key]'></td>"+
+		"				  </tr>"+
+		"			  </table>"+
+		"	   </div>"+
+		"       <div class='modal-footer'>"+
+		"          	<button type='button' class='btn btn-primary'  ng-click='del()'>确定</button>"+
+		"       </div>"+
+		"</div>"+
 		"");
 	}]);
 
@@ -244,66 +347,58 @@ angular.module("template/mcEdit.html", []).run(["$templateCache", function($temp
  ***********************************************/
 angular.module('mc.datetimepicker', [])
 
-.directive('mcdatetimepicker', function() {
-	return {
-		restrict: 'EA',
-		require : 'ngModel',
-		link : function (scope, element, attrs, ngModelCtrl) {
-			$(function(){
-				element.datetimepicker({ 
-					format: "yyyy/mm/dd hh:ii:ss",
-					language:  "zh-CN",
-					weekStart: 1,
-					todayBtn:  1,
-					autoclose: 1,
-					todayHighlight: 1,
-					startView: 2,
-					forceParse: 0
-				});
-			});
-		}
-	}
-})
-
 .directive('mcdatepicker', function() {
     return {
         restrict: 'EA',
         require : 'ngModel',
+        scope: {
+        	format : "@",
+        },
         link : function (scope, element, attrs, ngModelCtrl) {
-            $(function(){
-                element.datetimepicker({ 
-                    format: "yyyy/mm/dd",
-                    language:  "zh-CN",
-                    weekStart: 1,
-                    todayBtn:  1,
-                    autoclose: 1,
-                    todayHighlight: 1,
-                    startView: 2,
-                    minView: 2,
-                    forceParse: 0
-                });
-            });
-        }
-    }
-})
+        	if(!angular.isDefined(scope.format)){
+        		scope.format="yyyy/mm/dd";
+        	}
+        	var dateOption={};
+    		var isExist={};
+    		isExist.year = scope.format.indexOf("yyyy")>=0 ? true : false;
+    		isExist.month = scope.format.indexOf("mm")>=0 ? true : false;
+    		isExist.day = scope.format.indexOf("dd")>=0 ? true : false;
+    		isExist.hour = scope.format.indexOf("HH")>=0 ? true : false;
+    		isExist.mintue = scope.format.indexOf("ii")>=0 ? true : false;
+    		isExist.second = scope.format.indexOf("ss")>=0 ? true : false;
+    		//console.log(isExist);
+    		
+    		//api地址：http://www.bootcss.com/p/bootstrap-datetimepicker/
+    		dateOption.format=scope.format;
+    		dateOption.autoclose=1;
+    		dateOption.forceParse=0;
+    		
+    		if( isExist.year){
+    			dateOption.weekStart=1;
+    		}
+    		if( isExist.day){
+    			dateOption.todayBtn=1;
+    			dateOption.todayHighlight=1;
+    		}
+    		if( !isExist.year && !isExist.month && !isExist.day){
+    			dateOption.startView=1;//format: HH:ii:ss OR format: HH:ii ……
+    			dateOption.maxView=1;
+    			dateOption.minView=0;
+    		}
+    		if( !isExist.hour && !isExist.mintue && !isExist.second && isExist.year && isExist.month && isExist.day){
+    			dateOption.startView=2;//format:yyyy/mm/dd
+				dateOption.minView=2;
+    		}
+    		if( !isExist.hour && !isExist.mintue && !isExist.second && isExist.year && isExist.month && !isExist.day){
+    			dateOption.startView=3;//format:yyyy/mm
+    			dateOption.minView=3;
+    		}
+    		
+    		//console.log(dateOption);
+        	$(function(){
+        		element.datetimepicker(dateOption);
+        	});
 
-
-.directive('mctimepicker', function() {
-    return {
-        restrict: 'EA',
-        require : 'ngModel',
-        link : function (scope, element, attrs, ngModelCtrl) {
-            $(function(){
-                element.datetimepicker({ 
-                    format: "hh:ii:ss",
-                    language:  "zh-CN",
-                    autoclose: 1,
-                    startView: 1,
-                    minView: 0,
-                    maxView: 1,
-                    forceParse: 0
-                });
-            });
         }
     }
 });
