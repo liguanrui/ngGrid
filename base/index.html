@@ -1,0 +1,141 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="mcGrid">
+    <meta name="author" content="">
+
+    <title>mcGrid</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+    <link href="css/pretty.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">mcGrid</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+			
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+	    <br/>
+        <h1 class="text-center">mcGrid</h1>
+        <h5 class="text-center">基于angular的一个表格组件，带增删改、分页、搜索组合件</h5>
+         
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Getting Started</h2>
+          <div style="margin-top: 20px">
+				<p><strong>快速指引 (可以结合右边的例子):</strong></p>
+				<ol style="line-height: 1.8em;">
+					<li>载入 <a href="http://code.jquery.com/">jQuery</a> 和 <a href="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js">AngularJS</a>.</li>
+					<li>依赖 <a href="http://angular-ui.github.io/bootstrap/">UI Bootstrap</a> 和 <a href="http://www.bootcss.com/p/bootstrap-datetimepicker/">bootstrap-datetimepicker</a>（后期可以考虑加入<a href="http://select2.github.io/">select2</a>）.</li>
+					<li>你声明你的应用程序模块,添加ui.mc.grid、ui.bootstrap:<br> 
+						<code>angular.module('myApp',['ui.mc.grid','ui.bootstrap']);</code><br>
+						如果你使用 <a target="blank" href="https://github.com/angular/angular-seed">angular seed</a>, 那就加入到 app.js 文件中.</li>
+					<li>在 controller 内的 html 里面嵌入:<br>
+			
+						<code>&lt;!-- 表格内容 --&gt;<br/>
+						&lt;div mc-grid options="gridOptions"  source="dataSource"&gt;&lt;/div&gt;</code><br>
+						options：用于配置表格的字段、按钮组、分页.<br/>
+						source：渲染表格的数据（包含用于分页显示的total）.<br/>
+					</li>
+					 
+					<li>在你 javascript 文件中，嵌入：<br>
+					
+					</li>
+					<pre style="margin-top:10px" class="prettyprint"><span class="pln">$scope</span><span class="pun">.</span><span class="pln">dataSource </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Moroni"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">50</span><span class="pun">},</span><span class="pln">
+                     </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Tiancum"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">43</span><span class="pun">},</span><span class="pln">
+                     </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Jacob"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">27</span><span class="pun">},</span><span class="pln">
+                     </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Nephi"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">29</span><span class="pun">},</span><span class="pln">
+                     </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Enos"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">34</span><span class="pun">}];</span><span class="pln"></span>
+					 
+<span class="pln">$scope</span><span class="pun">.</span><span class="pln">gridOptions </span><span class="pun">=</span><span class='pun'> {</span><span class="str">columnDefs</span><span class='pun'>: [</span>
+                          <span class="pun">{</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"name"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="lit">"姓名", type: "text"</span><span class="pun">},</span>
+                         <span class="pln"> </span><span class="pun">{</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"age"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="lit">"年龄", type: "text"</span><span class="pun">}</span>
+                     <span class='pun'>]};</span>
+				 </pre>
+					<li style="margin-top: 20px">
+					
+					<strong>这就是表格的简单使用，如右边的例子:</strong><br>
+						</li> 
+						<div style="margin-top: 20px" ng-app="myApp1">
+							<div ng-controller="MyCtrl1">
+							 
+								<div mc-grid options="gridOptions" source="dataSource">
+								</div>
+							</div>
+						</div>
+						
+				
+				 
+				
+				</ol>
+			</div>
+		
+		
+        </div>
+        <div class="col-md-6">
+          
+		   
+		<h3>HTML:</h3>
+		<pre class="prettyprint linenums"><ol class="linenums"><li class="L0"><span class="tag">&lt;html</span><span class="pln"> </span><span class="atn">ng-app</span><span class="pun">=</span><span class="atv">"myApp"</span><span class="tag">&gt;</span><span class="pln">  </span></li><li class="L1"><span class="pln">    </span><span class="tag">&lt;head</span><span class="pln"> </span><span class="atn">lang</span><span class="pun">=</span><span class="atv">"en"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">        </span><span class="tag">&lt;meta</span><span class="pln"> </span><span class="atn">charset</span><span class="pun">=</span><span class="atv">"utf-8"</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">        </span><span class="tag">&lt;title&gt;</span><span class="pln">Getting Started With mcGrid Example</span><span class="tag">&lt;/title&gt;</span><span class="pln">  </span></li><li class="L4"><span class="pln">        </span><span class="tag">&lt;link</span><span class="pln"> </span><span class="atn">rel</span><span class="pun">=</span><span class="atv">"stylesheet"</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/css"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"bootstrap.min.css"</span><span class="pln"> </span><span class="tag">/&gt;</span></li><li class="L5"><span class="pln">        </span><span class="tag">&lt;link</span><span class="pln"> </span><span class="atn">rel</span><span class="pun">=</span><span class="atv">"stylesheet"</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/css"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"bootstrap-datetimepicker.min.css"</span><span class="pln"> </span><span class="tag">/&gt;</span></li><li class="L6"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"jquery-1.10.2.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L6"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"bootstrap.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span> </li><li class="L7"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"angular.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L7"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"ui-bootstrap-tpls-0.11.0.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L8"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"Mc.Grid-1.2.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L9"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"main.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L0"><span class="pln">    </span><span class="tag">&lt;/head&gt;</span></li><li class="L1"><span class="pln">    </span><span class="tag">&lt;body</span><span class="pln"> </span><span class="atn">ng-controller</span><span class="pun">=</span><span class="atv">"MyCtrl"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">        </span><span class="tag">&lt;div</span><span class="pln"></span><span class="pln"> </span><span class="atn">mc-grid</span> <span class="atn"> options</span><span class="pun">=</span><span class="atv">"gridOptions"</span> <span class="atn">source</span><span class="pun">=</span><span class="atv">"dataSource"</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">        </span><span class="tag">&lt;/div&gt;</span></li><li class="L4"><span class="pln">    </span><span class="tag">&lt;/body&gt;</span></li><li class="L5"><span class="tag">&lt;/html&gt;</span></li></ol></pre>	
+		 
+		<h3>Javascript:</h3>
+		<pre class="prettyprint linenums"><ol class="linenums"><li class="L0"><span class="com">// main.js</span></li><li class="L1"><span class="kwd">var</span><span class="pln"> app </span><span class="pun">=</span><span class="pln"> angular</span><span class="pun">.</span><span class="kwd">module</span><span class="pun">(</span><span class="str">'myApp'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">[</span><span class="str">'ui.mc.grid','ui.bootstrap'</span><span class="pun">]);</span></li><li class="L2"><span class="pln">app</span><span class="pun">.</span><span class="pln">controller</span><span class="pun">(</span><span class="str">'MyCtrl'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">$scope</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></li><li class="L3"><span class="pln">    $scope</span><span class="pun">.</span><span class="pln">dataSource </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Moroni"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">50</span><span class="pun">},</span></li><li class="L4"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Tiancum"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">43</span><span class="pun">},</span></li><li class="L5"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Jacob"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">27</span><span class="pun">},</span></li><li class="L6"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Nephi"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">29</span><span class="pun">},</span></li><li class="L7"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Enos"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">34</span><span class="pun">}];</span></li><li class="L8"><span class="pln">    $scope</span><span class="pun">.</span><span class="pln">gridOptions </span><span class="pun">=</span><span class="pun"> {</span><span class="str">columnDefs</span><span class="pun"> :[</span></li><li><span class="pun">                               {</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"name"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"姓名"</span><span class="pun">,</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="str">"text"</span><span class="pln"> </span><span class="pun">},</li><li>                               <span class="pun">{</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"age"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"年龄"</span><span class="pun">,</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="str">"text"</span><span class="pln"> </span><span class="pun">}</span></li><li>                         <span class="pun">]};</span></li><li class="L9"><span class="pun">});</span></li></ol></pre>	
+		<p>View the plunker <a target="blank" href="http://plnkr.co/edit/T6qaQX">here</a>.</p>
+		</div>
+		  
+       </div>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Company 2015，By liguanrui ，ligr190@mingchao.com</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/angular.js"></script>
+	<script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.0.js"></script>
+	<script type="text/javascript" src="js/Mc.Grid-1.2.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>

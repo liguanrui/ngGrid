@@ -108,11 +108,15 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 	$scope.chosenFn = function (key, item){
 		if(  $scope.isChosen[key] ){
 			$scope.isChosen = {};
-		    $scope.chosen = null ;
+		    if( angular.isDefined($scope.chosen)) {
+				$scope.chosen = null ;
+			}
 		    $scope.isChosen[key] = false;
 		}else{
 			$scope.isChosen = {};
-			$scope.chosen = item ;
+			if( angular.isDefined($scope.chosen)) {
+				$scope.chosen = item ;
+			}
 			$scope.isChosen[key] = true;
 		}
 	}
@@ -189,13 +193,7 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 			controller:'mcGridController',
 			templateUrl: 'template/mcGrid.html',
 			link: function (scope,element, attrs) {
-				//想实现一个模板，可惜把握不好@TODO
-				/*angular.forEach(scope.options.columnDefs, function (item, index) {
-					if(!item.cellTemplate){
-						scope.options.columnDefs[index]['cellTemplate']="<span ng-bind='row[col.field]'></span>";
-					}
-				});*/
-				//console.log(scope.options.columnDefs);
+				 
 			}
 		};
 });
