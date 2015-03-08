@@ -25,7 +25,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body ng-app="myApp">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -93,7 +93,7 @@
 					
 					<strong>这就是表格的简单使用，如右边的例子:</strong><br>
 						</li> 
-						<div style="margin-top: 20px" ng-app="myApp1">
+						<div style="margin-top: 20px" ng-app="myApp">
 							<div ng-controller="MyCtrl1">
 							 
 								<div mc-grid options="gridOptions" source="dataSource">
@@ -123,7 +123,7 @@
 		  
        </div>
 	   
-	     <div id="Basic" class="rows">
+	     <div id="Basic" class="row">
 			<h1>基础例子</h1>
 			<div class="col-md-6">
 			
@@ -135,17 +135,133 @@
 				<a href="#Base-JavaScript" role="tab" data-toggle="tab" aria-expanded="true">JavaScript</a>
 			  </li>
 			</ul>
-			<div id="Base-Html">
-			
+			<div class="tab-content" >
+			<div id="Base-Html" role="tabpanel" class="tab-pane active" >
+				<pre class="prettyprint ng-scope" style="background-color: white; height: 400px; border-radius: 0 0 4px 4px; border-top:0px;">
+&lt;html ng-app="myApp"&gt;
+  &lt;head lang="en"&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Getting Started With mcGrid Example&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="bootstrap.min.css" /&gt;
+    &lt;link rel="stylesheet" type="text/css" href="bootstrap-datetimepicker.min.css" /&gt;
+    &lt;script type="text/javascript" src="jquery-1.10.2.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="bootstrap-datetimepicker.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="bootstrap.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="ui-bootstrap-tpls-0.11.0.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="Mc.Grid-1.2.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="main.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body ng-controller="MyCtrl"&gt;
+    &lt;div mc-grid options="gridOptions" source="dataSource"&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+				</pre>
 			</div>			
-			<div id="Base-JavaScript">
-			
+			<div id="Base-JavaScript" role="tabpanel" class="tab-pane" >
+				<pre class="prettyprint ng-scope" style="background-color: white; height: 400px; border-radius: 0 0 4px 4px; border-top:0px;">
+// main.js
+var app = angular.module('myApp', ['ui.mc.grid','ui.bootstrap']);
+app.controller('MyCtrl', function($scope) {
+    $scope.dataSource = [{name: "Moroni", age: 50},
+                         {name: "Tiancum", age: 43},
+                         {name: "Jacob", age: 27},
+                         {name: "Nephi", age: 29},
+                         {name: "Enos", age: 34}];
+    $scope.gridOptions = {columnDefs :[
+                            {key: "name", name: "姓名", type: "text" },
+                            {key: "age", name: "年龄", type: "text" }
+                         ]};
+});
+				</pre>
 			</div>
-			
+			</div>
 			</div>		
 			<div class="col-md-6">
+
+				<div ng-app="myApp1">
+							<div ng-controller="MyCtrl2">
+							 
+								<div mc-grid options="gridOptions" source="dataSource">
+								</div>
+							</div>
+				</div>
+
 			</div>
 	    </div>
+
+	    <div id="Basic" class="row">
+			<h1>搜索组合框</h1>
+			<div class="col-md-6">
+			
+			<ul id="myTab" class="nav nav-tabs" role="tablist">
+			  <li role="presentation" class="active">
+				<a href="#Base-Html" role="tab" data-toggle="tab" aria-expanded="true">Html</a>
+			  </li>
+			  <li role="presentation" >
+				<a href="#Base-JavaScript" role="tab" data-toggle="tab" aria-expanded="true">JavaScript</a>
+			  </li>
+			</ul>
+			<div class="tab-content" >
+			<div id="Base-Html" role="tabpanel" class="tab-pane active" >
+				<pre class="prettyprint ng-scope" style="background-color: white; height: 400px; border-radius: 0 0 4px 4px; border-top:0px;">
+&lt;html ng-app="myApp"&gt;
+  &lt;head lang="en"&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Getting Started With mcGrid Example&lt;/title&gt;
+    &lt;link rel="stylesheet" type="text/css" href="bootstrap.min.css" /&gt;
+    &lt;link rel="stylesheet" type="text/css" href="bootstrap-datetimepicker.min.css" /&gt;
+    &lt;script type="text/javascript" src="jquery-1.10.2.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="bootstrap-datetimepicker.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="bootstrap.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="angular.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="ui-bootstrap-tpls-0.11.0.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="Mc.Grid-1.2.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="main.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body ng-controller="MyCtrl"&gt;
+    &lt;div mc-grid options="gridOptions" source="dataSource"&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+				</pre>
+			</div>			
+			<div id="Base-JavaScript" role="tabpanel" class="tab-pane" >
+				<pre class="prettyprint ng-scope" style="background-color: white; height: 400px; border-radius: 0 0 4px 4px; border-top:0px;">
+// main.js
+var app = angular.module('myApp', ['ui.mc.grid','ui.bootstrap']);
+app.controller('MyCtrl', function($scope) {
+    $scope.dataSource = [{name: "Moroni", age: 50},
+                         {name: "Tiancum", age: 43},
+                         {name: "Jacob", age: 27},
+                         {name: "Nephi", age: 29},
+                         {name: "Enos", age: 34}];
+    $scope.gridOptions = {columnDefs :[
+                            {key: "name", name: "姓名", type: "text" },
+                            {key: "age", name: "年龄", type: "text" }
+                         ]};
+});
+				</pre>
+			</div>
+			</div>
+			</div>		
+			<div class="col-md-6">
+
+				<div ng-app="myApp1">
+							<div ng-controller="MyCtrl2">
+							 
+								<div mc-grid options="gridOptions" source="dataSource">
+								</div>
+							</div>
+				</div>
+
+			</div>
+	    </div>
+	  
+
+
+
 	  
 	  
       </div>
