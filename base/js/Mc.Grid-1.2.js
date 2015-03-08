@@ -39,7 +39,6 @@ angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.mu
 			restrict: "EA",
 			scope: {
 				options: "=",
-				link: "=",
 				source: "=",
 				param:"=",
 			},
