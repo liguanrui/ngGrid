@@ -5,7 +5,39 @@
 * Create At: 2014-10-21 
 ***********************************************/
 
-angular.module('ui.mc.grid', ['ui.mcInput','ui.mcGrid','mc.model','mc.edit']);
+
+
+/************************************************
+ * directive : compile
+ * description : angular再编译
+***********************************************/
+angular.module('compile', [], function($compileProvider) {
+    // configure new 'compile' directive by passing a directive
+    // factory function. The factory function injects the '$compile'
+    $compileProvider.directive('compile', function($compile) {
+      // directive factory creates a link function
+      return function(scope, element, attrs) {
+        scope.$watch(
+          function(scope) {
+             // watch the 'compile' expression for changes
+            return scope.$eval(attrs.compile);
+          },
+          function(value) {
+            // when the 'compile' expression changes
+            // assign it into the current DOM
+            element.html(value);
+            // compile the new DOM and link it to the current
+            // scope.
+            // NOTE: we only compile .childNodes so that
+            // we don't get into infinite loop compiling ourselves
+            $compile(element.contents())(scope);
+          }
+        );
+      };
+    })
+  });
+
+angular.module('ui.mc.grid', ['ui.mcInput','ui.mcGrid','mc.model','mc.edit',"compile"]);
 
 /************************************************
  * directive : mc-input
@@ -21,7 +53,7 @@ angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.mu
 				$scope.search[index]=stringify(item);
 		});
 		$http({
-		      url: $scope.link,
+		      url: $scope.options.postUrl,
 		      method: "get",
 		      params: $scope.search
 		    }).success(function(json){
@@ -39,6 +71,7 @@ angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.mu
 			restrict: "EA",
 			scope: {
 				options: "=",
+				link: "=",
 				source: "=",
 				param:"=",
 			},
@@ -48,18 +81,19 @@ angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.mu
 			link: function (scope) {
 				scope.search={};
 				var sign=false;
-				if(angular.isDefined(scope.options))
-				angular.forEach(scope.options, function (item, index) {
-					if(item.value!=undefined){
-						scope.search[item.key]=item.value;
-						sign=true;
-					}else{
-						scope.search[item.key]="";
-					}
-				});
-				if(sign){
-					scope.getData();
+				if(angular.isDefined(scope.options.combine)){
+					angular.forEach(scope.options.combine, function (item, index) {
+						if(item.value!=undefined){
+							scope.search[item.key]=item.value;
+							sign=true;
+						}else{
+							scope.search[item.key]="";
+						}
+					});
 				}
+				//if(sign){ 忘记当初为何要sign？3/6觉得可以去掉，兼容没有combine配置
+				scope.getData();
+			
 				scope.inputChange=function(){
 					scope.getData();
 				};
@@ -70,14 +104,14 @@ angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.mu
 angular.module("template/mcInput.html", []).run(["$templateCache", function($templateCache) {
 		$templateCache.put("template/mcInput.html",
 		"<nav class='navbar navbar-default' role='navigation'>\n"+
-        "<div>\n"+
+       // "<div>\n"+
         "	<form class='navbar-form navbar-left' role='search'>\n"+
-		"		<div class='input-group input-group-sm' ng-repeat='(index,item) in options'>\n"+
+		"		<div class='input-group input-group-sm' ng-repeat='(index,item) in options.combine'>\n"+
 		"				<span class='input-group-addon' ng-bind='item.name' ></span>\n"+
 		"				<input class='form-control' type='text'  ng-if=\"item.type=='text'\"  ng-change='inputChange()' ng-model='search[item.key]'>\n"+
 		"				<select class='form-control'   ng-if=\"item.type=='select'\"  ng-change='inputChange()' ng-model='search[item.key]'>\n"+
 		"					<option  value=''> ---请选择--- </option>\n"+
-		"					<option  ng-repeat='(k,v) in item.arr' value='{{k}}'  ng-bind='v'> </option>\n"+
+		"					<option  ng-repeat='(k,v) in item.arr' value='{{k}}'  ng-bind='v' ng-selected=\"item.value==k\"> </option>\n"+
 		"				</select>"+
 		"				<input class='form-control'  type='text'  ng-if=\"item.type=='datetime'\"   ng-change='inputChange()' ng-model='search[item.key]' mcdatepicker>\n"+
 		"				<select class='form-control multiselect' ng-if=\"item.type=='multiselect'\" ng-change='inputChange()' ng-model='search[item.key]' multiple='multiple' mcmultiple >\n"+
@@ -85,8 +119,8 @@ angular.module("template/mcInput.html", []).run(["$templateCache", function($tem
 	    "				</select>\n"+
 		"		</div>\n"+
 		"	</form>\n"+
-		"			<ul style='padding: 13px;' ng-transclude></ul>"+
-		"</div>\n"+
+		"			<ul style='padding:13px;float:left' ng-transclude></ul>"+
+	//	"</div>\n"+
 		"</nav>\n"+
 		"");
 }]);
@@ -107,16 +141,41 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 	$scope.chosenFn = function (key, item){
 		if(  $scope.isChosen[key] ){
 			$scope.isChosen = {};
-		    if( angular.isDefined($scope.chosen)) {
-				$scope.chosen = null ;
-			}
+		    $scope.chosen = null ;
 		    $scope.isChosen[key] = false;
 		}else{
 			$scope.isChosen = {};
-			if( angular.isDefined($scope.chosen)) {
-				$scope.chosen = item ;
-			}
+			$scope.chosen = item ;
 			$scope.isChosen[key] = true;
+		}
+	}
+	
+	/**
+	 * @label 分页
+	 */
+	var isShowPage = angular.isDefined($scope.options.pagination);
+	if(isShowPage){
+		$scope.currentPage = 1;  //默认当前页
+		$scope.maxSize = angular.isDefined($scope.options.pagination.maxSize)? $scope.options.pagination.maxSize: 5;     //默认分页显示数字按钮数目
+		$scope.perPage = angular.isDefined($scope.options.pagination.perPage)? $scope.options.pagination.perPage : 15;  //默认分页数
+	}
+	$scope.pageChanged=function(){
+		if( isShowPage ){
+			$scope.isChosen = {};
+			//console.log($scope.param);
+			$http({
+			  url: $scope.options.pagination.postUrl+"&start="+($scope.currentPage-1)*$scope.perPage+"&limit="+$scope.perPage,
+			  method: "get",
+			  params: $scope.param
+			}).success(function(json){
+			  if(json.status === 1) {
+				  $scope.source = json;
+			  }else{
+				  console.log("json.status状态值不正确或者获取数据失败!");
+			  }
+			});
+		}else{
+			location.reload();
 		}
 	}
 	
@@ -169,7 +228,8 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 		console.log(json);
 		showTips(json.msg);
 		if(json.status==1){
-			
+			$scope.pageChanged();
+			$(".modal").modal("hide");
 		}
 	}
 	
@@ -188,11 +248,18 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 				options: "=",
 				source: "=",
 				chosen: "=",
+				param: "=",
 			},
 			controller:'mcGridController',
 			templateUrl: 'template/mcGrid.html',
 			link: function (scope,element, attrs) {
-				 
+				//想实现一个模板，可惜把握不好@TODO
+				/*angular.forEach(scope.options.columnDefs, function (item, index) {
+					if(!item.cellTemplate){
+						scope.options.columnDefs[index]['cellTemplate']="<span ng-bind='row[col.field]'></span>";
+					}
+				});*/
+				//console.log(scope.options.columnDefs);
 			}
 		};
 });
@@ -203,16 +270,18 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 		"<table class='table table-bordered table-striped'>\n"+
 		"		<thead>" +
 		"			<tr>"+
-		"				<th ng-repeat='item in options.columnDefs' ng-bind='item.name'></th>"+
+		"				<th ng-repeat='item in options.columnDefs' ng-bind='item.name' width='{{item.width}}'></th>"+
 		"			</tr>" +
 		"		</thead>"+
 		"		<tbody>"+
-		"			<tr ng-repeat='(rowIndex,row) in source' ng-click='chosenFn(rowIndex,row)'  ng-class='{danger: isChosen[rowIndex]}'>"+
+		"			<tr ng-repeat='(rowIndex,row) in source.rows' ng-click='chosenFn(rowIndex,row)'  ng-class='{danger: isChosen[rowIndex]}'>"+
 		"				<td ng-repeat='(colIndex,col) in options.columnDefs'>" +
-		"						<span ng-if=\"col.type!='select'\" ng-bind='row[col.key]'></span>"+
+		"					<span ng-if='!col.cellTemplate'>" +
+		"						<span ng-if=\"col.type!='select'&&col.type!='seqnum'\" ng-bind='row[col.key]'></span>"+
+		"						<span ng-if=\"col.type=='seqnum'\" ng-bind='(currentPage-1)*perPage+rowIndex+1'></span>"+
 		"						<span ng-if=\"col.type=='select'\" ng-bind='col.arr[row[col.key]]'></span>"+
-		//"					<span ng-if='!col.cellTemplate' ng-bind='row[col.field]'></span>" +
-		//"					<span ng-if='col.cellTemplate'  ng-bind-html='col.cellTemplate|showHtml'> </span>" +
+		"					</span>" +
+		"					<span ng-if='col.cellTemplate'  compile='col.cellTemplate'>{{col.cellTemplate}} </span>" +
 		"				</td>"+
 		"			</tr>"+
 		"</table>\n"+
@@ -239,9 +308,10 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 		"      <div class='modal-body'>"+
 		"			  <h5 class='text-danger'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> 确定要删除该条数据？</h5>"+	
 		"             <table class='table table-striped table-hover'>" +
-		"				  <tr ng-repeat='(k,v) in options.columnDefs'>" +
+		"				  <tr ng-repeat='(k,v) in options.columnDefs' ng-if=\"v.type!='seqnum'\">" +
 		"					<td ng-bind='v.name'></td>" +
-		"					<td ng-bind='chosen[v.key]'></td>"+
+		"					<td ng-if=\"v.type=='text' || v.type=='id'\" ng-bind='chosen[v.key]'></td>"+
+		"					<td ng-if=\"v.type=='select'\" ng-bind='v.arr[chosen[v.key]]'></td>"+
 		"				  </tr>"+
 		"			  </table>"+
 		"	   </div>"+
@@ -249,6 +319,10 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 		"          	<button type='button' class='btn btn-primary'  ng-click='del()'>确定</button>"+
 		"       </div>"+
 		"</div>"+
+		"<!-- 分页 -->"+
+		"<span class='fright' ng-show='options.pagination'>"+
+		"	<pagination total-items='source.total'  ng-model='currentPage'  ng-change='pageChanged()'  max-size='maxSize' boundary-links='true' rotate='false' num-pages='numPages' previous-text='&lsaquo;' next-text='&rsaquo;' first-text='&laquo;' last-text='&raquo;'  items-per-page='perPage'></pagination>"+
+		"</span>"+
 		"");
 	}]);
 
@@ -316,22 +390,22 @@ angular.module('mc.edit', ["template/mcEdit.html","mc.datetimepicker","mc.multip
 		controller:'EditController',
 		templateUrl: 'template/mcEdit.html',
 		link : function (scope, element, attrs, ngModelCtrl) {
-			console.log(scope.param);
+			//console.log(scope.param);
 		}
 	}
 })
 
 angular.module("template/mcEdit.html", []).run(["$templateCache", function($templateCache) {
 	$templateCache.put("template/mcEdit.html",
-	" <div class='form-group' ng-repeat='(colIndex,col) in column' ng-show=\"col.type!='id'\">"+
+	" <div class='form-group' ng-repeat='(colIndex,col) in column' ng-show=\"col.type!='id'&&col.type!='seqnum'\">"+
     " 		<label >{{col.name}}</label>"+
-    "		<input class='form-control' type='text'  ng-if=\"col.type=='text'\"   ng-model='param[col.key]'>\n"+
-	"		<select class='form-control'   ng-if=\"col.type=='select'\"    ng-model='param[col.key]'>\n"+
+    "		<input class='form-control input-sm' type='text'  ng-if=\"col.type=='text'\"   ng-model='param[col.key]'>\n"+
+	"		<select class='form-control input-sm'   ng-if=\"col.type=='select'\"    ng-model='param[col.key]'>\n"+
 	"			<option  value=''> ---请选择--- </option>\n"+
 	"			<option  ng-repeat='(k,v) in col.arr' value='{{k}}'  ng-bind='v'> </option>\n"+
 	"		</select>"+
-	"		<input class='form-control'  type='text'  ng-if=\"col.type=='datetime'\"  ng-model='param[col.key]' mcdatepicker>\n"+
-	"		<input class='form-control'  type='text'  ng-if=\"col.type=='id'\"  ng-model='param[col.key]'>\n"+
+	"		<input class='form-control input-sm'  type='text'  ng-if=\"col.type=='datetime'\"  ng-model='param[col.key]' mcdatepicker format='{{col.format}}'>\n"+
+	"		<input class='form-control input-sm'  type='text'  ng-if=\"col.type=='id'\"  ng-model='param[col.key]'>\n"+
 	"</div>"+
 	"");
 }]);
@@ -352,9 +426,10 @@ angular.module('mc.datetimepicker', [])
         	format : "@",
         },
         link : function (scope, element, attrs, ngModelCtrl) {
-        	if(!angular.isDefined(scope.format)){
+        	if( !angular.isDefined(scope.format) || scope.format==""){
         		scope.format="yyyy/mm/dd";
         	}
+        	 
         	var dateOption={};
     		var isExist={};
     		isExist.year = scope.format.indexOf("yyyy")>=0 ? true : false;
