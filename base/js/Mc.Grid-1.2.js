@@ -71,9 +71,8 @@ angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.mu
 			restrict: "EA",
 			scope: {
 				options: "=",
-				link: "=",
 				source: "=",
-				param:"=",
+				param:"=?",
 			},
 			controller:'InputController',
 			templateUrl: 'template/mcInput.html',
@@ -104,7 +103,6 @@ angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.mu
 angular.module("template/mcInput.html", []).run(["$templateCache", function($templateCache) {
 		$templateCache.put("template/mcInput.html",
 		"<nav class='navbar navbar-default' role='navigation'>\n"+
-       // "<div>\n"+
         "	<form class='navbar-form navbar-left' role='search'>\n"+
 		"		<div class='input-group input-group-sm' ng-repeat='(index,item) in options.combine'>\n"+
 		"				<span class='input-group-addon' ng-bind='item.name' ></span>\n"+
@@ -119,8 +117,7 @@ angular.module("template/mcInput.html", []).run(["$templateCache", function($tem
 	    "				</select>\n"+
 		"		</div>\n"+
 		"	</form>\n"+
-		"			<ul style='padding:13px;float:left' ng-transclude></ul>"+
-	//	"</div>\n"+
+		"			<ul style='padding:13px;float:left' ng-transclude></ul>" +
 		"</nav>\n"+
 		"");
 }]);
@@ -177,6 +174,10 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 		}else{
 			location.reload();
 		}
+	}
+	
+	$scope.pagefn = function(){
+		$scope.pageChanged();
 	}
 	
 	 /**
@@ -247,19 +248,13 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 			scope: {
 				options: "=",
 				source: "=",
-				chosen: "=",
-				param: "=",
+				chosen: "=?",
+				param: "=?",
+				pagefn: "=?",
 			},
 			controller:'mcGridController',
 			templateUrl: 'template/mcGrid.html',
 			link: function (scope,element, attrs) {
-				//想实现一个模板，可惜把握不好@TODO
-				/*angular.forEach(scope.options.columnDefs, function (item, index) {
-					if(!item.cellTemplate){
-						scope.options.columnDefs[index]['cellTemplate']="<span ng-bind='row[col.field]'></span>";
-					}
-				});*/
-				//console.log(scope.options.columnDefs);
 			}
 		};
 });
@@ -310,7 +305,7 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 		"             <table class='table table-striped table-hover'>" +
 		"				  <tr ng-repeat='(k,v) in options.columnDefs' ng-if=\"v.type!='seqnum'\">" +
 		"					<td ng-bind='v.name'></td>" +
-		"					<td ng-if=\"v.type=='text' || v.type=='id'\" ng-bind='chosen[v.key]'></td>"+
+		"					<td ng-if=\"v.type!='select'\" ng-bind='chosen[v.key]'></td>"+
 		"					<td ng-if=\"v.type=='select'\" ng-bind='v.arr[chosen[v.key]]'></td>"+
 		"				  </tr>"+
 		"			  </table>"+
@@ -405,7 +400,7 @@ angular.module("template/mcEdit.html", []).run(["$templateCache", function($temp
 	"			<option  ng-repeat='(k,v) in col.arr' value='{{k}}'  ng-bind='v'> </option>\n"+
 	"		</select>"+
 	"		<input class='form-control input-sm'  type='text'  ng-if=\"col.type=='datetime'\"  ng-model='param[col.key]' mcdatepicker format='{{col.format}}'>\n"+
-	"		<input class='form-control input-sm'  type='text'  ng-if=\"col.type=='id'\"  ng-model='param[col.key]'>\n"+
+	"		<input class='form-control input-sm'  type='text'  ng-if=\"col.type=='span'\"  ng-model='param[col.key]' disabled>\n"+
 	"</div>"+
 	"");
 }]);

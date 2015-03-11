@@ -25,7 +25,7 @@
     <![endif]-->
   </head>
 
-  <body ng-app="myApp">
+  <body>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -78,11 +78,12 @@
 					<li>在你 javascript 文件中，嵌入：<br>
 					
 					</li>
-					<pre style="margin-top:10px" class="prettyprint"><span class="pln">$scope</span><span class="pun">.</span><span class="pln">dataSource </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Moroni"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">50</span><span class="pun">},</span><span class="pln">
+					<pre style="margin-top:10px" class="prettyprint"><span class="pln">$scope</span><span class="pun">.</span><span class="pln">dataSource </span><span class="pun">=</span><span class="pun"> {</span><span class="str">rows</span><span class="pun">: [</span>
+                     <span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Moroni"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">50</span><span class="pun">},</span><span class="pln">
                      </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Tiancum"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">43</span><span class="pun">},</span><span class="pln">
                      </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Jacob"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">27</span><span class="pun">},</span><span class="pln">
                      </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Nephi"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">29</span><span class="pun">},</span><span class="pln">
-                     </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Enos"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">34</span><span class="pun">}];</span><span class="pln"></span>
+                     </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Enos"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">34</span><span class="pun">}]};</span><span class="pln"></span>
 					 
 <span class="pln">$scope</span><span class="pun">.</span><span class="pln">gridOptions </span><span class="pun">=</span><span class='pun'> {</span><span class="str">columnDefs</span><span class='pun'>: [</span>
                           <span class="pun">{</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"name"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="lit">"姓名", type: "text"</span><span class="pun">},</span>
@@ -116,7 +117,7 @@
 		<pre class="prettyprint linenums"><ol class="linenums"><li class="L0"><span class="tag">&lt;html</span><span class="pln"> </span><span class="atn">ng-app</span><span class="pun">=</span><span class="atv">"myApp"</span><span class="tag">&gt;</span><span class="pln">  </span></li><li class="L1"><span class="pln">    </span><span class="tag">&lt;head</span><span class="pln"> </span><span class="atn">lang</span><span class="pun">=</span><span class="atv">"en"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">        </span><span class="tag">&lt;meta</span><span class="pln"> </span><span class="atn">charset</span><span class="pun">=</span><span class="atv">"utf-8"</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">        </span><span class="tag">&lt;title&gt;</span><span class="pln">Getting Started With mcGrid Example</span><span class="tag">&lt;/title&gt;</span><span class="pln">  </span></li><li class="L4"><span class="pln">        </span><span class="tag">&lt;link</span><span class="pln"> </span><span class="atn">rel</span><span class="pun">=</span><span class="atv">"stylesheet"</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/css"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"bootstrap.min.css"</span><span class="pln"> </span><span class="tag">/&gt;</span></li><li class="L5"><span class="pln">        </span><span class="tag">&lt;link</span><span class="pln"> </span><span class="atn">rel</span><span class="pun">=</span><span class="atv">"stylesheet"</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/css"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"bootstrap-datetimepicker.min.css"</span><span class="pln"> </span><span class="tag">/&gt;</span></li><li class="L6"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"jquery-1.10.2.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L6"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"bootstrap-datetimepicker.min.js"</span><span class="tag">&gt;&lt;/script&gt;</li><li><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"bootstrap.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span> </li><li class="L7"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"angular.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L7"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"ui-bootstrap-tpls-0.11.0.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L8"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"Mc.Grid-1.2.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L9"><span class="pln">        </span><span class="tag">&lt;script</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"text/javascript"</span><span class="pln"> </span><span class="atn">src</span><span class="pun">=</span><span class="atv">"main.js"</span><span class="tag">&gt;&lt;/script&gt;</span></li><li class="L0"><span class="pln">    </span><span class="tag">&lt;/head&gt;</span></li><li class="L1"><span class="pln">    </span><span class="tag">&lt;body</span><span class="pln"> </span><span class="atn">ng-controller</span><span class="pun">=</span><span class="atv">"MyCtrl"</span><span class="tag">&gt;</span></li><li class="L2"><span class="pln">        </span><span class="tag">&lt;div</span><span class="pln"></span><span class="pln"> </span><span class="atn">mc-grid</span> <span class="atn"> options</span><span class="pun">=</span><span class="atv">"gridOptions"</span> <span class="atn">source</span><span class="pun">=</span><span class="atv">"dataSource"</span><span class="tag">&gt;</span></li><li class="L3"><span class="pln">        </span><span class="tag">&lt;/div&gt;</span></li><li class="L4"><span class="pln">    </span><span class="tag">&lt;/body&gt;</span></li><li class="L5"><span class="tag">&lt;/html&gt;</span></li></ol></pre>	
 		 
 		<h3>Javascript:</h3>
-		<pre class="prettyprint linenums"><ol class="linenums"><li class="L0"><span class="com">// main.js</span></li><li class="L1"><span class="kwd">var</span><span class="pln"> app </span><span class="pun">=</span><span class="pln"> angular</span><span class="pun">.</span><span class="kwd">module</span><span class="pun">(</span><span class="str">'myApp'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">[</span><span class="str">'ui.mc.grid','ui.bootstrap'</span><span class="pun">]);</span></li><li class="L2"><span class="pln">app</span><span class="pun">.</span><span class="pln">controller</span><span class="pun">(</span><span class="str">'MyCtrl'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">$scope</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></li><li class="L3"><span class="pln">    $scope</span><span class="pun">.</span><span class="pln">dataSource </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Moroni"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">50</span><span class="pun">},</span></li><li class="L4"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Tiancum"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">43</span><span class="pun">},</span></li><li class="L5"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Jacob"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">27</span><span class="pun">},</span></li><li class="L6"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Nephi"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">29</span><span class="pun">},</span></li><li class="L7"><span class="pln">                         </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Enos"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">34</span><span class="pun">}];</span></li><li class="L8"><span class="pln">    $scope</span><span class="pun">.</span><span class="pln">gridOptions </span><span class="pun">=</span><span class="pun"> {</span><span class="str">columnDefs</span><span class="pun"> :[</span></li><li><span class="pun">                               {</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"name"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"姓名"</span><span class="pun">,</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="str">"text"</span><span class="pln"> </span><span class="pun">},</li><li>                               <span class="pun">{</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"age"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"年龄"</span><span class="pun">,</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="str">"text"</span><span class="pln"> </span><span class="pun">}</span></li><li>                         <span class="pun">]};</span></li><li class="L9"><span class="pun">});</span></li></ol></pre>	
+		<pre class="prettyprint linenums"><ol class="linenums"><li class="L0"><span class="com">// main.js</span></li><li class="L1"><span class="kwd">var</span><span class="pln"> app </span><span class="pun">=</span><span class="pln"> angular</span><span class="pun">.</span><span class="kwd">module</span><span class="pun">(</span><span class="str">'myApp'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">[</span><span class="str">'ui.mc.grid','ui.bootstrap'</span><span class="pun">]);</span></li><li class="L2"><span class="pln">app</span><span class="pun">.</span><span class="pln">controller</span><span class="pun">(</span><span class="str">'MyCtrl'</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">function</span><span class="pun">(</span><span class="pln">$scope</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span></li><li class="L3"><span class="pln">    $scope</span><span class="pun">.</span><span class="pln">dataSource </span><span class="pun">=</span><span class="pun"> {</span><span class="str">rows</span><span class="pun">:[</span></li><li><span class="pun">                             {</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Moroni"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">50</span><span class="pun">},</span></li><li class="L4"><span class="pln">                             </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Tiancum"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">43</span><span class="pun">},</span></li><li class="L5"><span class="pln">                             </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Jacob"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">27</span><span class="pun">},</span></li><li class="L6"><span class="pln">                             </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Nephi"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">29</span><span class="pun">},</span></li><li class="L7"><span class="pln">                             </span><span class="pun">{</span><span class="pln">name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Enos"</span><span class="pun">,</span><span class="pln"> age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">34</span><span class="pun">}</li><li><span class="pun">                        ]};</span></li><li class="L8"><span class="pln">    $scope</span><span class="pun">.</span><span class="pln">gridOptions </span><span class="pun">=</span><span class="pun"> {</span><span class="str">columnDefs</span><span class="pun"> :[</span></li><li><span class="pun">                               {</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"name"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"姓名"</span><span class="pun">,</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="str">"text"</span><span class="pln"> </span><span class="pun">},</li><li>                               <span class="pun">{</span><span class="pln">key</span><span class="pun">:</span><span class="pln"> </span><span class="str">"age"</span><span class="pun">,</span><span class="pln"> name</span><span class="pun">:</span><span class="pln"> </span><span class="str">"年龄"</span><span class="pun">,</span><span class="pln"> type</span><span class="pun">:</span><span class="pln"> </span><span class="str">"text"</span><span class="pln"> </span><span class="pun">}</span></li><li>                         <span class="pun">]};</span></li><li class="L9"><span class="pun">});</span></li></ol></pre>	
 		<p>View the plunker <a target="blank" href="http://plnkr.co/edit/T6qaQX">here</a>.</p>
 		</div>
 		  
@@ -124,8 +125,8 @@
        </div>
 	   
 	     <div id="Basic" class="row">
-			<h1>基础例子</h1>
-			<div class="col-md-6">
+			<h1>基本例子</h1>
+			<div class="col-md-12">
 			
 			<ul id="myTab" class="nav nav-tabs" role="tablist">
 			  <li role="presentation" class="active">
@@ -138,7 +139,7 @@
 			<div class="tab-content" >
 			<div id="Base-Html" role="tabpanel" class="tab-pane active" >
 				<pre class="prettyprint ng-scope" style="background-color: white; height: 400px; border-radius: 0 0 4px 4px; border-top:0px;">
-&lt;html ng-app="myApp"&gt;
+&lt;html ng-app="GridModule"&gt;
   &lt;head lang="en"&gt;
     &lt;meta charset="utf-8"&gt;
     &lt;title&gt;Getting Started With mcGrid Example&lt;/title&gt;
@@ -152,9 +153,18 @@
     &lt;script type="text/javascript" src="Mc.Grid-1.2.js"&gt;&lt;/script&gt;
     &lt;script type="text/javascript" src="main.js"&gt;&lt;/script&gt;
   &lt;/head&gt;
-  &lt;body ng-controller="MyCtrl"&gt;
-    &lt;div mc-grid options="gridOptions" source="dataSource"&gt;
-    &lt;/div&gt;
+  &lt;body ng-controller="GridCtrl"&gt;
+    &lt;!-- 表头 高级搜索组合框 --&gt;
+      &lt;div mc-input options="inputOptions" source="dataSource" param="SeachParam"&gt;
+        &lt;button data-target="#add-model" data-toggle="modal" class="btn btn-success btn-sm" type="button"&gt;新增&lt;/button&gt;
+        &lt;button data-target="#update-model" data-toggle="modal" class="btn btn-info btn-sm type="button" ng-disabled="chosenItem==null"&gt;更新&lt;/button&gt;
+        &lt;button data-target="#delete-model" data-toggle="modal" class="btn btn-danger btn-sm" type="button" ng-disabled="chosenItem==null"&gt;删除&lt;/button&gt;
+        &lt;button class="btn btn-default btn-sm" type="button" ng-click="doSomeThing()" ng-disabled="chosenItem==null"&gt;其他&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;!-- 表格 --&gt;
+      &lt;div mc-grid options="gridOptions"  source="dataSource"  chosen="chosenItem"   param="SeachParam"&gt;&lt;/div&gt;
+   
   &lt;/body&gt;
 &lt;/html&gt;
 				</pre>
@@ -162,33 +172,76 @@
 			<div id="Base-JavaScript" role="tabpanel" class="tab-pane" >
 				<pre class="prettyprint ng-scope" style="background-color: white; height: 400px; border-radius: 0 0 4px 4px; border-top:0px;">
 // main.js
-var app = angular.module('myApp', ['ui.mc.grid','ui.bootstrap']);
-app.controller('MyCtrl', function($scope) {
-    $scope.dataSource = [{name: "Moroni", age: 50},
-                         {name: "Tiancum", age: 43},
-                         {name: "Jacob", age: 27},
-                         {name: "Nephi", age: 29},
-                         {name: "Enos", age: 34}];
-    $scope.gridOptions = {columnDefs :[
-                            {key: "name", name: "姓名", type: "text" },
-                            {key: "age", name: "年龄", type: "text" }
-                         ]};
-});
+var GridApp=angular.module('GridModule', ['ui.mc.grid','ui.bootstrap']);
+
+function GridCtrl($http,$scope) {
+	
+	$scope.baseUrl="/api/LibraryList.php?action=";
+	$scope.dataSource={};
+	$scope.chosenItem=null;
+
+
+	//@TODO这个最好可以脱离smarty,用MVVC的service？
+	$scope.op= {"category":{"1":"技术类","2":"其他类","3":"专业类","4":"职业习惯类","5":"管理类","6":"美术类","7":"工具类","15":"小说类"}};
+ 
+	//配置搜索复合器
+	$scope.inputOptions={
+	    combine: [
+		{key:"bid",name:"编号",type:"text",value:""},
+    		{key:"name",name:"书名",type:"text"},
+    		{key:"sort",name:"分类",type:"select",arr:$scope.op.category},
+	    ],
+	    postUrl : $scope.baseUrl+"getList",
+	};
+
+	//配置表头 根据返回的数据格式@dataSource配置
+	$scope.gridOptions={
+	    columnDefs: [          	
+    	      {key:"index",name:"序号",type:"seqnum"},
+    	      {key:"B_ID",name:"编号",type:"id"},
+    	      {key:"B_Sort",name:"分类",type:"select",arr:$scope.op.category},
+    	      {key:"B_Name",name:"书名",type:"text"},
+    	      {key:"B_Price",name:"价格",type:"text",cellTemplate:"&lt;span ng-if='row.B_Price'&gt;￥{{row.B_Price}}&lt;/span&gt;"},
+    	      {key:"B_AvailNum",name:"库存",type:"text"},
+    	      {key:"B_BuyTime",name:"购买日期",type:"datetime"},
+    	    ],
+	    addBtn : {label:"新增",nodeId:"add-model",postUrl:$scope.baseUrl+"insert"},
+	    updateBtn : {label:"更新",nodeId:"update-model",postUrl:$scope.baseUrl+"update"},
+	    deleteBtn : {label:"删除",nodeId:"delete-model",postUrl:$scope.baseUrl+"del"},
+	    pagination : {postUrl:$scope.baseUrl+"getList"},
+	};
+
+	$scope.doSomeThing = function(){
+		console.log($scope.chosenItem);
+	}
+	
+}
 				</pre>
 			</div>
 			</div>
 			</div>		
-			<div class="col-md-6">
-
-				<div ng-app="myApp1">
-							<div ng-controller="MyCtrl2">
-							 
-								<div mc-grid options="gridOptions" source="dataSource">
-								</div>
-							</div>
+			
+			<div class="col-md-12">
+			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+			  <div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingOne">
+				  <h4 class="panel-title">
+				     视图 (需要配置host，才可以看到下面的例子，请联系liguanrui)
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="pull-right">
+					  收起 
+					</a>
+				  </h4>
 				</div>
-
-			</div>
+				<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+				  <div class="panel-body">
+					
+						<iframe style="width:100%;height:700px;" border="0" frameborder="no" name="inner-frame" ng-src=" " >
+						</iframe>
+					</div>
+				  </div>
+				 </div>
+				 </div>
+				 </div>
 	    </div>
 
 	    <div class="row">
@@ -197,26 +250,40 @@ app.controller('MyCtrl', function($scope) {
 	    		<tr>
 	    			<td>directive</td>
 	    			<td>attrs</td>
-	    			<td>describe</td>
+	    			<td width=500>describe</td>
 	    			<td>note</td>
 	    		</tr>
 	    		<tr>
 	    			<td rowspan='3'>mcInput</td>
 	    			<td>options</td>
 	    			<td>配置组合搜索框（json格式），配置后端请求数据的URL</td>
-	    			<td></td>
+	    			<td>
+		  
+						<li>combine: 配置搜索组合框<br/>&nbsp;&nbsp;&nbsp;
+							属性值（key, name, type, value, arr）</li>
+						<li>postUrl: 获取数据URL</li>
+		
+					</td>
 	    		</tr>
 	    		<tr>
 	  
 	    			<td>source</td>
 	    			<td>用于接收返回获取到数据（包含数据列表和数据总数）</td>
-	    			<td></td>
+	    			<td>
+
+					<li>rows: 数据列表</li>
+					<li>total: 用于分页的总算</li>
+					<li>status: 状态</li>
+
+					</td>
 	    		</tr>
 	    		<tr>
 	    		 
 	    			<td>param</td>
 	    			<td>用于接收搜索组合框的条件限制参数</td>
-	    			<td></td>
+	    			<td>
+						<li>按照options.combine的key顺序返回搜索参数</li>
+					</td>
 	    		</tr>
 
 
@@ -224,51 +291,69 @@ app.controller('MyCtrl', function($scope) {
 	    			<td rowspan='4'>mcGrid</td>
 	    			<td>options</td>
 	    			<td>配置组合表格展示（json格式），包含columnDefs</td>
-	    			<td></td>
+	    			<td>
+					<li>columnDefs：表格列配置</li>
+					<li>addBtn：增操作，根据columnDefs生成modal<br/>&nbsp;&nbsp;&nbsp;
+						  属性值（label, nodeId, postUrl）
+					</li>
+					<li>updateBtn：改操作，同addBtn</li>
+					<li>deleteBtn：删操作，同addBtn</li>
+					<li>pagination: 分页<br/>&nbsp;&nbsp;&nbsp;
+						  属性值（postUrl, limit）
+					</li>
+					</td>
 	    		</tr>
 	    		<tr>
 	    			<td>source</td>
 	    			<td>用于接收搜索组合框返回获取到数据（包含数据列表和数据总数）</td>
-	    			<td></td>
+	    			<td>
+					<li>rows: 数据列表</li>
+					<li>total: 用于分页的总算</li>
+					<li>status: 状态</li>
+					</td>
 	    		</tr>
 	    		<tr>
 	    			<td>param</td>
 	    			<td>用于接收搜索组合框搜索组合框的条件限制参数，用于分页</td>
-	    			<td></td>
+	    			<td>
+					<li>按照options.combine的key顺序返回搜索参数</li>
+					</td>
 	    		</tr>	
 	    		<tr>
 	    			<td>chosen</td>
 	    			<td>用于接收返回已选择表格中的一行的数据</td>
-	    			<td></td>
+	    			<td>
+					<li>按照options.columnDefs的key顺序返回选中一行数据</li>
+					</td>
 	    		</tr>
 
 				<tr>
 	    			<td rowspan='3'>mcModal</td>
 	    			<td>modalid</td>
 	    			<td>modal的id</td>
-	    			<td></td>
+	    			<td>/</td>
 	    		</tr>
 	    		<tr>
 	    			<td>modalsize</td>
 	    			<td>modal的大小</td>
-	    			<td></td>
+	    			<td>/</td>
 	    		</tr>
 	    		<tr>
 	    			<td>modalhead</td>
 	    			<td>modal的头部，另外提醒modal的身体和脚部都可以通过transclude加进来</td>
-	    			<td></td>
+	    			<td>/</td>
 	    		</tr>
 
 	    		<tr>
 	    			<td rowspan='2'>mcEdit</td>
 	    			<td>column</td>
 	    			<td>一般可以通过表格的columnDefs获得</td>
-	    			<td></td>
+	    			<td>/</td>
 	    		</tr>
 	    		<tr>
 	    			<td>param</td>
 	    			<td>接收表单内容，用作后面的内容更新和插入操作</td>
-	    			<td></td>
+	    			<td>/</td>
 	    		</tr>
 
 
@@ -277,7 +362,7 @@ app.controller('MyCtrl', function($scope) {
 	    			<td rowspan='1'>mcdatepicker</td>
 	    			<td>format</td>
 	    			<td>具体可以查看bootstrap-datetimepicker的api，format格式要求一致，例如yyyy/mm/dd HH:ii:ss</td>
-	    			<td></td>
+	    			<td>/</td>
 	    		</tr>
 
 
@@ -285,6 +370,13 @@ app.controller('MyCtrl', function($scope) {
 	    	</table>
 	    </div>
 	  
+	  <div class="row">
+	    	<h1>关于</h1>
+			<ul>
+				<li>项目地址：<a href="http://git.mingchao.com/liguanrui/mcGrid" target="_blank">http://git.mingchao.com/liguanrui/mcGrid</a></li>
+				<li>问题反馈：<a href="http://git.mingchao.com/liguanrui/mcGrid/issues" target="_blank">http://git.mingchao.com/liguanrui/mcGrid/issues</a></li>
+			</ul>
+	  </div>
 	  
       </div>
 
@@ -306,7 +398,7 @@ app.controller('MyCtrl', function($scope) {
     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/angular.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.0.js"></script>
 	<script type="text/javascript" src="js/Mc.Grid-1.2.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
