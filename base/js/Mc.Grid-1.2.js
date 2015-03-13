@@ -281,7 +281,7 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 		"			</tr>"+
 		"</table>\n"+
 		"<!-- 新增模态框 -->"+
-		"<div mc-model  ng-if='options.addBtn' modelid='{{options.addBtn.nodeId}}'  modelhead='{{options.addBtn.label}}'  modelsize='{{option.addBtn.size}}'>"+
+		"<div mc-model  ng-if='options.addBtn' modalid='{{options.addBtn.nodeId}}'  modalhead='{{options.addBtn.label}}'  modalsize='{{option.addBtn.size}}'>"+
 	    "      <div class='modal-body'>"+
 	    "             <div mc-edit  column='options.columnDefs'  param='addItem'></div>"+
       	"	   </div>"+
@@ -290,7 +290,7 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
         "       </div>"+
 		"</div>"+
 		"<!-- 更新模态框 -->"+
-		"<div mc-model  ng-if='options.updateBtn' modelid='{{options.updateBtn.nodeId}}'  modelhead='{{options.updateBtn.label}}'  modelsize='{{option.updateBtn.size}}'>"+
+		"<div mc-model  ng-if='options.updateBtn' modalid='{{options.updateBtn.nodeId}}'  modalhead='{{options.updateBtn.label}}'  modalsize='{{option.updateBtn.size}}'>"+
 		"      <div class='modal-body'>"+
 		"             <div mc-edit  column='options.columnDefs'  param='chosen'></div>"+
 		"	   </div>"+
@@ -299,7 +299,7 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 		"       </div>"+
 		"</div>"+
 		"<!-- 删除模态框 -->"+
-		"<div mc-model  ng-if='options.deleteBtn' modelid='{{options.deleteBtn.nodeId}}'  modelhead='{{options.deleteBtn.label}}'  modelsize='{{option.deleteBtn.size}}'>"+
+		"<div mc-model  ng-if='options.deleteBtn' modalid='{{options.deleteBtn.nodeId}}'  modalhead='{{options.deleteBtn.label}}'  modalsize='{{option.deleteBtn.size}}'>"+
 		"      <div class='modal-body'>"+
 		"			  <h5 class='text-danger'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> 确定要删除该条数据？</h5>"+	
 		"             <table class='table table-striped table-hover'>" +
@@ -323,22 +323,22 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 
 
 /************************************************
- * directive : mcmodel
+ * directive : mcModal
  * description : model插件
  * Rely on : bootstrap-datetimepicker
 ***********************************************/
-angular.module('mc.model', ["template/mcModel.html"])
+angular.module('mc.modal', ["template/mcModal.html"])
 
-.directive('mcModel', function() {
+.directive('mcModal', function() {
     return {
         restrict: 'EA',
 		scope: {
-			modelid: "@",
-			modelsize: "@",
-			modelhead: "@",
-			modelfn: "&",
+			modalid: "@",
+			modalsize: "@",
+			modalhead: "@",
+			modalfn: "&",
 		},
-		templateUrl: 'template/mcModel.html',
+		templateUrl: 'template/mcModal.html',
 		transclude : true,
 		replace : true,
         link : function (scope, element, attrs, ngModelCtrl) {
@@ -347,14 +347,14 @@ angular.module('mc.model', ["template/mcModel.html"])
     }
 })
 
-angular.module("template/mcModel.html", []).run(["$templateCache", function($templateCache) {
-	  $templateCache.put("template/mcModel.html",
-		"<div class='modal fade'  id='{{modelid}}'  tabindex='-1' role='dialog' aria-labelledby='myLargeModalLabel' aria-hidden='true'>"+
-      	"	<div class='modal-dialog {{modelsize}}'>"+
+angular.module("template/mcModal.html", []).run(["$templateCache", function($templateCache) {
+	  $templateCache.put("template/mcModal.html",
+		"<div class='modal fade'  id='{{modalid}}'  tabindex='-1' role='dialog' aria-labelledby='myLargeModalLabel' aria-hidden='true'>"+
+      	"	<div class='modal-dialog {{modalsize}}'>"+
       	"		<div class='modal-content'>"+
       	"			<div class='modal-header'>"+
       	"				<button type='button' class='close' data-dismiss='modal'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>"+
-      	"				<h4 class='modal-title' >{{modelhead}}</h4>"+
+      	"				<h4 class='modal-title' >{{modalhead}}</h4>"+
       	"			</div>"+
       	"			<div ng-transclude></div>"+
         "       </div>"+
