@@ -1,16 +1,106 @@
-#ngGrid
+#McGrid
 
------
+> »ùÓÚangualr µÄÒ»¸öËÉñîºÏµÄ±í¸ñ±à¼­Æ÷,°üº¬±í¸ñËÑË÷×éºÏÆ÷£¬±í¸ñ¡¢·ÖÒ³¡¢¸üĞÂ¡¢ĞÂÔö¡¢É¾³ıµÈ²Ù×÷¡£
 
->angualr çš„ä¸€ä¸ªæ¾è€¦åˆçš„è¡¨æ ¼ç¼–è¾‘å™¨,åŒ…å«è¡¨æ ¼æœç´¢ç»„åˆå™¨ï¼Œè¡¨æ ¼ï¼Œåˆ†é¡µï¼Œæ›´æ–°ï¼Œæ–°å¢ï¼Œåˆ é™¤ç­‰æ“ä½œ
+####Preface
+×î½ü¹¤×÷ÔÚÕûÀíÄ³ÏµÍ³µÄÇ°¶Ë²å¼şoperamasks-ui¹ı³ÌÖĞ£¬ÎªÁË¼Ó¿ì¹¤×÷Ğ§ÂÊ¡£ÕûÀíÏà¹ØÒµÎñµÄÒ³Ãæ£¬·¢ÏÖ´ó²¿·Ö¶¼ÊôÓÚÔöÉ¾¸ÄµÄ±í¸ñÕ¹Ê¾ĞÎÊ½£¬ÉÔÎ¢²Î¿¼ÁËopearmasks-uiµÄÊµÏÖ·½Ê½£¬½áºÏangularµÄdirective·â×°´úÂëÆ¬¶ÎµÄ·½·¨¡£¿ªÊ¼×ÅÊÖ¿ª·¢Ò»¸ö»ùÓÚangularµÄGrid×é¼ş¡£
 
-##ç›¸å…³æ–‡æ¡£
-ä¸‹è½½é¡¹ç›®ï¼Œæ‰“å¼€base/index.html,æœ‰è¯¦ç»†é…ç½®
+####Support
+- [AngularJS v1.2.16](http://angularjs.org)
+- [Bootstrap v3.2.0](http://getbootstrap.com)
+- [bootstrap-datetimepicker v2.3.1](http://www.bootcss.com/p/bootstrap-datetimepicker)
+- [angular-ui-bootstrap v0.11.0](http://angular-ui.github.io/bootstrap/) 
 
-##ç‰ˆæœ¬å·
-1.2
+####Document
+ ÏÂÔØÏîÄ¿£¬´ò¿ªmisc/demo/index.html£¬ÓĞÏêÏ¸ÅäÖÃÎÄµµ¡£
 
-##TodoList
-å…·ä½“æŸ¥çœ‹issues
+####download
+ºËĞÄ´úÂëÕûÀíµ½libÄ¿Â¼ÏÂ¡£
 
+####Version
+- 2015-03-07 v1.1
+- 2015-03-09 v1.2
+- 2015-03-13 v1.2.1
+- 2015-03-16 v1.3
+
+####ChangeLog
+
+1. È¥µô mcInput£¬Ïà¹Ø¹¦ÄÜºÏ²¢µ½mcGrid¡£
+
+		    options={
+		        combine : [
+		            *key : 
+		            *displayName : //Ô­À´ÊÇname
+		            value :
+		            type : //£¨text/select/datetime/£©Ä¬ÈÏÊÇtext
+		            arr : //ÏÂÀ­¿òµÄjsonÊı×é
+		            format£º//datetimeµÄÅäÖÃ
+		            placeholder : //ÌáÊ¾
+		            width : //³¤¶È
+		            class: //´óĞ¡
+		        ],
+		        postUrl : //»ñÈ¡Êı¾İÔ´µÄ½Ó¿Ú£¬ËÑË÷ºÍ·ÖÒ³¶¼»áÓÃµ½
+		        *columnDefs : [
+		            *key :
+		            *displayName: //Ô­À´ÊÇname
+		            type : //£¨text/span/select/datetime/textarea/id/select2£©Ä¬ÈÏÊÇtext£¬Ôö¼Ótextarea£¬id¾¡Á¿ÉÙÓÃÓĞ¿ÉÄÜ·Ï³ı
+		            arr : //ÏÂÀ­¿òµÄjsonÊı×é
+		            format£º//datetimeµÄÅäÖÃ£¬ÅĞ¶ÏÊ±¼äÎªint¿ÉÒÔË³±ã°´ÕÕformat×ª»»¸ñÊ½
+		            cellTemplate : 
+		            placeholder : //ÌáÊ¾
+		            width : //³¤¶È
+		            class: //´óĞ¡
+		            required : //¼ìÑé
+		        ],
+		        addBtn : [
+		            modalHead : //Ô­À´ÊÇlabel 
+		            nodeId : //È¥µô
+		            *postUrl :
+		            postfn : //×Ô¶¨Òåfunction£¿
+		        ],
+		        updateBtn : [
+		            modalHead : //Ô­À´ÊÇlabel 
+		            nodeId :  //È¥µô
+		            *postUrl :
+		        ],
+		        delBtn : [
+		            modalHead : //Ô­À´ÊÇlabel 
+		            nodeId :  //È¥µô
+		            *postUrl :
+		        ],
+		        pagination: [
+		            postUrl :
+		            perPage : //Ô­À´limit
+		            maxSize : 
+		            setPage : //Ôö¼ÓÌø×ªjump£¿
+		        ],//Ä¬ÈÏÏÔÊ¾·ÖÒ³£¬¿ÉÒÔÅäÖÃfalse
+		    }
+
+2. mcmodelĞŞ¸ÄÎªmcmodal£¬modal-bodyºÍmodal-footerÏà¹Ø´úÂëÕûÀíµ½´úÂëÆ¬¶Î£¬Ôö¼ÓmodalfnÀ´´«µİµã»÷È·¶¨Ö´ĞĞµÄfunction¡£¾ßÌå¿ÉÒÔ²Î¿¼ÒÔ²ÎÊıÁĞ±í
+3. mcGridÄÚ²¿´úÂëÕûÀí£¬È¥µôÖ®Ç°¹ı¶àµÄng-ifÅĞ¶Ï£¬ĞŞ¸ÄÎª`Ô¤´¦Àí`+`compile`À´±àÒëhtmlÄ£°åµÄĞÎÊ½¡£
+4. mcGridµÄattr²ÎÊıÁĞ±í£º
+
+		.directive("mcGrid", function() {
+		return {
+			restrict: "EA",
+			scope: {
+				options: "=",
+				source: "=?", //¿É²»¶¨ÒåµÄ
+				chosen: "=?",
+				param: "=?",
+				pagefn: "=?",
+			},
+			controller:'mcGridController',
+			templateUrl: 'template/mcGrid.html',
+			transclude : true,
+			link: function (scope,element, attrs) {
+				scope.pageChanged();
+			}
+		};
+});
+		
+####TodoList
+¾ßÌå²é¿´issues
+		
+		
 

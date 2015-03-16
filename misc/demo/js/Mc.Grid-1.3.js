@@ -1,8 +1,9 @@
 /***********************************************
 * mc-grid JavaScript Library
 * Authors: liguanrui
-* mail : ligr190@mingchao.com
+* mail : xhsysu@126.com
 * Create At: 2014-10-21 
+* update At:2015-03-13 Edit 1.2.1
 ***********************************************/
 
 
@@ -37,91 +38,7 @@ angular.module('compile', [], function($compileProvider) {
     })
   });
 
-angular.module('ui.mc.grid', ['ui.mcInput','ui.mcGrid','mc.model','mc.edit',"compile"]);
-
-/************************************************
- * directive : mc-input
- * description : 表头 高级搜索组合框
-***********************************************/
-angular.module('ui.mcInput', ["template/mcInput.html","mc.datetimepicker","mc.multiple"])
-
-.controller('InputController', ['$http','$scope', '$attrs', function ($http,$scope, $attrs) {
-	$scope.getData =function(){
-		$scope.param=$scope.search;
-		angular.forEach($scope.search, function (item, index) {
-			if(angular.isArray(item)) 
-				$scope.search[index]=stringify(item);
-		});
-		$http({
-		      url: $scope.options.postUrl,
-		      method: "get",
-		      params: $scope.search
-		    }).success(function(json){
-		      if(json.status === 1) {
-		    	  $scope.source = json;
-		      }else{
-		    	  console.log("json.status状态值不正确或者获取数据失败!");
-		      }
-		    });
-	}
-}])
-
-.directive("mcInput", function() {
-		return {
-			restrict: "EA",
-			scope: {
-				options: "=",
-				source: "=",
-				param:"=?",
-			},
-			controller:'InputController',
-			templateUrl: 'template/mcInput.html',
-			transclude : true,
-			link: function (scope) {
-				scope.search={};
-				var sign=false;
-				if(angular.isDefined(scope.options.combine)){
-					angular.forEach(scope.options.combine, function (item, index) {
-						if(item.value!=undefined){
-							scope.search[item.key]=item.value;
-							sign=true;
-						}else{
-							scope.search[item.key]="";
-						}
-					});
-				}
-				//if(sign){ 忘记当初为何要sign？3/6觉得可以去掉，兼容没有combine配置
-				scope.getData();
-			
-				scope.inputChange=function(){
-					scope.getData();
-				};
-			}
-		};
-});
-
-angular.module("template/mcInput.html", []).run(["$templateCache", function($templateCache) {
-		$templateCache.put("template/mcInput.html",
-		"<nav class='navbar navbar-default' role='navigation'>\n"+
-        "	<form class='navbar-form navbar-left' role='search'>\n"+
-		"		<div class='input-group input-group-sm' ng-repeat='(index,item) in options.combine'>\n"+
-		"				<span class='input-group-addon' ng-bind='item.name' ></span>\n"+
-		"				<input class='form-control' type='text'  ng-if=\"item.type=='text'\"  ng-change='inputChange()' ng-model='search[item.key]'>\n"+
-		"				<select class='form-control'   ng-if=\"item.type=='select'\"  ng-change='inputChange()' ng-model='search[item.key]'>\n"+
-		"					<option  value=''> ---请选择--- </option>\n"+
-		"					<option  ng-repeat='(k,v) in item.arr' value='{{k}}'  ng-bind='v' ng-selected=\"item.value==k\"> </option>\n"+
-		"				</select>"+
-		"				<input class='form-control'  type='text'  ng-if=\"item.type=='datetime'\"   ng-change='inputChange()' ng-model='search[item.key]' mcdatepicker>\n"+
-		"				<select class='form-control multiselect' ng-if=\"item.type=='multiselect'\" ng-change='inputChange()' ng-model='search[item.key]' multiple='multiple' mcmultiple >\n"+
-		"					<option  ng-repeat='(k,v) in item.arr' value='{{k}}'  ng-bind='v'> </option>\n"+
-	    "				</select>\n"+
-		"		</div>\n"+
-		"	</form>\n"+
-		"			<ul style='padding:13px;float:left' ng-transclude></ul>" +
-		"</nav>\n"+
-		"");
-}]);
-
+angular.module('ui.mc.grid', ['ui.mcGrid','mc.modal','mc.edit',"mc.datetimepicker","mc.multiple","compile"]);
 
 
 /************************************************
@@ -150,32 +67,40 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 	/**
 	 * @label 分页
 	 */
-	var isShowPage = angular.isDefined($scope.options.pagination);
+	if(angular.isDefined($scope.options.pagination) || $scope.options.pagination!=false)
+		var isShowPage = true;
+	else
+		var isShowPage = false;
+	
+//	angular.forEach($scope.search, function (item, index) {
+//		if(angular.isArray(item))
+//			$scope.search[index]=stringify(item);
+//	});
+	
 	if(isShowPage){
 		$scope.currentPage = 1;  //默认当前页
 		$scope.maxSize = angular.isDefined($scope.options.pagination.maxSize)? $scope.options.pagination.maxSize: 5;     //默认分页显示数字按钮数目
 		$scope.perPage = angular.isDefined($scope.options.pagination.perPage)? $scope.options.pagination.perPage : 15;  //默认分页数
 	}
 	$scope.pageChanged=function(){
-		if( isShowPage ){
-			$scope.isChosen = {};
-			//console.log($scope.param);
-			$http({
-			  url: $scope.options.pagination.postUrl+"&start="+($scope.currentPage-1)*$scope.perPage+"&limit="+$scope.perPage,
-			  method: "get",
-			  params: $scope.param
-			}).success(function(json){
-			  if(json.status === 1) {
-				  $scope.source = json;
-			  }else{
-				  console.log("json.status状态值不正确或者获取数据失败!");
-			  }
-			});
-		}else{
-			location.reload();
-		}
+		//$scope.isChosen = {};
+		//console.log($scope.param);
+		$http({
+		  url: $scope.options.postUrl+"?start="+($scope.currentPage-1)*$scope.perPage+"&limit="+$scope.perPage,
+		  method: "get",
+		  params: $scope.param
+		}).success(function(json){
+		  if(json.status === 1) {
+			  $scope.source = json;
+		  }else{
+			  console.log("json.status状态值不正确或者获取数据失败!");
+		  }
+		});
 	}
 	
+	/**
+	 * 把pageChange传递出去
+	 */
 	$scope.pagefn = function(){
 		$scope.pageChanged();
 	}
@@ -212,6 +137,7 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 	 * @label 更新
 	 */
 	$scope.update = function(){
+		delete $scope.chosen['$$hashKey'];
 		angularPost($scope.chosen, $scope.options.updateBtn.postUrl, successFn);
 	}
 	
@@ -219,6 +145,7 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 	 * @label 删除
 	 */
 	$scope.del = function(){
+		delete $scope.chosen['$$hashKey'];
 		angularPost($scope.chosen, $scope.options.deleteBtn.postUrl, successFn);
 	}
 	
@@ -227,11 +154,84 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 	 */
 	function successFn(json){
 		console.log(json);
-		showTips(json.msg);
+		//showTips(json.msg);
 		if(json.status==1){
 			$scope.pageChanged();
 			$(".modal").modal("hide");
 		}
+	}
+	
+	/**
+	 * 预处理 options.combine
+	 */
+	$scope.param={};
+	if(angular.isDefined($scope.options.combine)){
+		angular.forEach($scope.options.combine, function (item, index) {
+			var placeholderStr="";
+			var widthStr="";
+			var classStr="";
+			if(angular.isDefined(item.value)){
+				$scope.param[item.key]=item.value;
+			}else{
+				$scope.param[item.key]="";
+			}
+			if(angular.isDefined(item.placeholder)){
+				placeholderStr=" placeholder='"+item.placeholder+"' ";
+			}
+			if(angular.isDefined(item.width)){
+				widthStr=" width='"+item.width+"' ";
+			}
+			if(angular.isDefined(item.class)){
+				classStr=item.class;
+			}
+			if(angular.isUndefined(item.type)){
+				$scope.options.combine[index]['template']="<input class='form-control "+classStr+"' "+placeholderStr+widthStr+" type='text'  ng-change='pageChanged()' ng-model='param[item.key]'>";
+			}
+			if(item.type=='select'){
+				$scope.options.combine[index]['template']="<select class='form-control "+classStr+"' "+placeholderStr+widthStr+" ng-change='pageChanged()' ng-model='param[item.key]' ng-options='k as v for (k,v) in item.arr'>\n"+
+				"<option  value=''> ---请选择--- </option>\n"+
+				"</select>";
+			}
+			if(item.type=='datetime'){
+				$scope.options.combine[index]['template']="<input class='form-control "+classStr+"' "+placeholderStr+widthStr+" type='text' ng-change='pageChanged()' ng-model='param[item.key]' mcdatepicker>\n";
+			}
+			if(item.type=='textarea'){
+				$scope.options.combine[index]['template']="<textarea class='form-control "+classStr+"' "+placeholderStr+widthStr+" ng-change='pageChanged()' rows='3' ng-model='param[item.key]'></textarea>\n";
+			}
+		});
+	}
+	
+	/**
+	 * 按钮
+	 */
+	if(angular.isDefined($scope.options.addBtn)){
+		$scope.options.addBtn.modalHead="新增";
+	}
+	if(angular.isDefined($scope.options.updateBtn)){
+		$scope.options.updateBtn.modalHead="更新";
+	}
+	if(angular.isDefined($scope.options.deleteBtn)){
+		$scope.options.deleteBtn.modalHead="删除";
+	}
+	
+	/**
+	 * 表格cellTemplate
+	 */
+	if(angular.isDefined($scope.options.columnDefs)){
+		angular.forEach($scope.options.columnDefs, function (item, index) {
+			if( angular.isUndefined(item.cellTemplate) ){
+				if( item.type!='select' && item.type!= 'seqnum'){
+					var cellTemplate="<span ng-bind='row[col.key]'></span>";
+				}
+				if( item.type=='seqnum'){
+					var cellTemplate="<span ng-bind='(currentPage-1)*perPage+rowIndex+1'></span>";
+				}
+				if( item.type=='select'){
+					var cellTemplate="<span ng-bind='col.arr[row[col.key]]'></span>";
+				}
+				$scope.options.columnDefs[index]['cellTemplate']=cellTemplate;
+			}
+		});
 	}
 	
 }])
@@ -247,14 +247,16 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 			restrict: "EA",
 			scope: {
 				options: "=",
-				source: "=",
+				source: "=?",
 				chosen: "=?",
 				param: "=?",
 				pagefn: "=?",
 			},
 			controller:'mcGridController',
 			templateUrl: 'template/mcGrid.html',
+			transclude : true,
 			link: function (scope,element, attrs) {
+				scope.pageChanged();
 			}
 		};
 });
@@ -262,61 +264,55 @@ angular.module('ui.mcGrid', ["template/mcGrid.html"])
 
 angular.module("template/mcGrid.html", []).run(["$templateCache", function($templateCache) {
 	  $templateCache.put("template/mcGrid.html",
-		"<table class='table table-bordered table-striped'>\n"+
+		"<nav class='navbar navbar-default' role='navigation'>\n"+
+		"	<form class='navbar-form navbar-left' role='search' ng-if='options.combine'>\n"+
+		"		<div class='input-group input-group-sm' ng-repeat='(index,item) in options.combine'>\n"+
+		"				<span class='input-group-addon' ng-bind='item.displayName' ></span>\n"+
+		"				<span compile='item.template'></span>\n"+
+		"		</div>\n"+
+		"	</form>\n"+
+		"	<ul style='padding:13px;float:left' >" +
+		"		<button data-target='#add-model' data-toggle='modal' class='btn btn-success btn-sm' type='button'>新增</button>"+
+        "		<button data-target='#update-model' data-toggle='modal' class='btn btn-info btn-sm' type='button' ng-disabled='chosen==null'>更新</button>"+
+        "		<button data-target='#delete-model' data-toggle='modal' class='btn btn-danger btn-sm' type='button' ng-disabled='chosen==null'>删除</button>"+
+		"		<span ng-transclude></span>"+
+        "	</ul>" +
+		"</nav>\n"+
+		"<table class='table table-bordered table-striped' ng-if='options.columnDefs'>\n"+
 		"		<thead>" +
 		"			<tr>"+
-		"				<th ng-repeat='item in options.columnDefs' ng-bind='item.name' width='{{item.width}}'></th>"+
+		"				<th ng-repeat='item in options.columnDefs' ng-bind='item.displayName' width='{{item.width}}'></th>"+
 		"			</tr>" +
 		"		</thead>"+
 		"		<tbody>"+
 		"			<tr ng-repeat='(rowIndex,row) in source.rows' ng-click='chosenFn(rowIndex,row)'  ng-class='{danger: isChosen[rowIndex]}'>"+
 		"				<td ng-repeat='(colIndex,col) in options.columnDefs'>" +
-		"					<span ng-if='!col.cellTemplate'>" +
-		"						<span ng-if=\"col.type!='select'&&col.type!='seqnum'\" ng-bind='row[col.key]'></span>"+
-		"						<span ng-if=\"col.type=='seqnum'\" ng-bind='(currentPage-1)*perPage+rowIndex+1'></span>"+
-		"						<span ng-if=\"col.type=='select'\" ng-bind='col.arr[row[col.key]]'></span>"+
-		"					</span>" +
-		"					<span ng-if='col.cellTemplate'  compile='col.cellTemplate'>{{col.cellTemplate}} </span>" +
+		"					<span compile='col.cellTemplate'></span>" +
 		"				</td>"+
 		"			</tr>"+
 		"</table>\n"+
 		"<!-- 新增模态框 -->"+
-		"<div mc-model  ng-if='options.addBtn' modalid='{{options.addBtn.nodeId}}'  modalhead='{{options.addBtn.label}}'  modalsize='{{option.addBtn.size}}'>"+
-	    "      <div class='modal-body'>"+
-	    "             <div mc-edit  column='options.columnDefs'  param='addItem'></div>"+
-      	"	   </div>"+
-        "       <div class='modal-footer'>"+
-        "          	<button type='button' class='btn btn-primary'  ng-click='add()'>保存</button>"+
-        "       </div>"+
+		"<div mc-modal  ng-if='options.addBtn' modalid='add-model'  modalhead='{{options.addBtn.modalHead}}'  modalsize='{{option.addBtn.modalSize}}' modalfn='add'>"+
+	    "      <div mc-edit  column='options.columnDefs'  param='addItem'></div>"+
 		"</div>"+
 		"<!-- 更新模态框 -->"+
-		"<div mc-model  ng-if='options.updateBtn' modalid='{{options.updateBtn.nodeId}}'  modalhead='{{options.updateBtn.label}}'  modalsize='{{option.updateBtn.size}}'>"+
-		"      <div class='modal-body'>"+
-		"             <div mc-edit  column='options.columnDefs'  param='chosen'></div>"+
-		"	   </div>"+
-		"       <div class='modal-footer'>"+
-		"          	<button type='button' class='btn btn-primary'  ng-click='update()'>保存</button>"+
-		"       </div>"+
+		"<div mc-modal  ng-if='options.updateBtn' modalid='update-model'  modalhead='{{options.updateBtn.modalHead}}'  modalsize='{{option.updateBtn.modalSize}}' modalfn='update'>"+
+		"      <div mc-edit  column='options.columnDefs'  param='chosen'></div>"+
 		"</div>"+
 		"<!-- 删除模态框 -->"+
-		"<div mc-model  ng-if='options.deleteBtn' modalid='{{options.deleteBtn.nodeId}}'  modalhead='{{options.deleteBtn.label}}'  modalsize='{{option.deleteBtn.size}}'>"+
-		"      <div class='modal-body'>"+
-		"			  <h5 class='text-danger'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> 确定要删除该条数据？</h5>"+	
-		"             <table class='table table-striped table-hover'>" +
-		"				  <tr ng-repeat='(k,v) in options.columnDefs' ng-if=\"v.type!='seqnum'\">" +
-		"					<td ng-bind='v.name'></td>" +
-		"					<td ng-if=\"v.type!='select'\" ng-bind='chosen[v.key]'></td>"+
-		"					<td ng-if=\"v.type=='select'\" ng-bind='v.arr[chosen[v.key]]'></td>"+
-		"				  </tr>"+
-		"			  </table>"+
-		"	   </div>"+
-		"       <div class='modal-footer'>"+
-		"          	<button type='button' class='btn btn-primary'  ng-click='del()'>确定</button>"+
-		"       </div>"+
+		"<div mc-modal  ng-if='options.deleteBtn' modalid='delete-model'  modalhead='{{options.deleteBtn.modalHead}}'  modalsize='{{option.deleteBtn.modalSize}}' modalfn='del'>"+
+		"		<h5 class='text-danger'><span class='glyphicon glyphicon-remove' aria-hidden='true'></span> 确定要删除该条数据？</h5>"+	
+		"       <table class='table table-striped table-hover'>" +
+		"			<tr ng-repeat='(k,v) in options.columnDefs' ng-if=\"v.type!='seqnum'\">" +
+		"				<td ng-bind='v.displayName'></td>" +
+		"				<td ng-if=\"v.type!='select'\" ng-bind='chosen[v.key]'></td>"+
+		"				<td ng-if=\"v.type=='select'\" ng-bind='v.arr[chosen[v.key]]'></td>"+
+		"			</tr>"+
+		"		</table>"+
 		"</div>"+
 		"<!-- 分页 -->"+
-		"<span class='fright' ng-show='options.pagination'>"+
-		"	<pagination total-items='source.total'  ng-model='currentPage'  ng-change='pageChanged()'  max-size='maxSize' boundary-links='true' rotate='false' num-pages='numPages' previous-text='&lsaquo;' next-text='&rsaquo;' first-text='&laquo;' last-text='&raquo;'  items-per-page='perPage'></pagination>"+
+		"<dic class='rows' ng-show='options.pagination'>"+
+		"	<pagination class='pull-right' style='margin:0px' total-items='source.total'  ng-model='currentPage'  ng-change='pageChanged()'  max-size='maxSize' boundary-links='true' rotate='false' num-pages='numPages' previous-text='&lsaquo;' next-text='&rsaquo;' first-text='&laquo;' last-text='&raquo;'  items-per-page='perPage'></pagination>"+
 		"</span>"+
 		"");
 	}]);
@@ -329,6 +325,10 @@ angular.module("template/mcGrid.html", []).run(["$templateCache", function($temp
 ***********************************************/
 angular.module('mc.modal', ["template/mcModal.html"])
 
+.controller('ModalController', ['$http','$scope', '$attrs', function ($http,$scope, $attrs) {
+	
+}])
+
 .directive('mcModal', function() {
     return {
         restrict: 'EA',
@@ -336,9 +336,10 @@ angular.module('mc.modal', ["template/mcModal.html"])
 			modalid: "@",
 			modalsize: "@",
 			modalhead: "@",
-			modalfn: "&",
+			modalfn: "=",
 		},
 		templateUrl: 'template/mcModal.html',
+		controller:'ModalController',
 		transclude : true,
 		replace : true,
         link : function (scope, element, attrs, ngModelCtrl) {
@@ -356,7 +357,12 @@ angular.module("template/mcModal.html", []).run(["$templateCache", function($tem
       	"				<button type='button' class='close' data-dismiss='modal'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>"+
       	"				<h4 class='modal-title' >{{modalhead}}</h4>"+
       	"			</div>"+
-      	"			<div ng-transclude></div>"+
+	    "      		<div class='modal-body'>"+
+	    "             <div ng-transclude></div>"+
+      	"	   		</div>"+
+        "       	<div class='modal-footer'>"+
+        "          		<button type='button' class='btn btn-primary'  ng-click='modalfn()'>确定</button>"+
+        "       	</div>"+
         "       </div>"+
         "    </div>"+
         " </div>"+
@@ -372,7 +378,31 @@ angular.module("template/mcModal.html", []).run(["$templateCache", function($tem
 angular.module('mc.edit', ["template/mcEdit.html","mc.datetimepicker","mc.multiple"])
 
 .controller('EditController', ['$http','$scope', '$attrs', function ($http,$scope, $attrs) {
- 
+	/**
+	 * 预处理 options.combine
+	 */
+	if(angular.isDefined($scope.column)){
+		angular.forEach($scope.column, function (item, index) {
+			var placeholderStr="";
+			var widthStr="";
+			var classStr="";
+			
+			if(angular.isUndefined(item.placeholder)){
+				$scope.column[index]['placeholder'] = "";
+			}
+			if(angular.isUndefined(item.width)){
+				$scope.column[index]['width'] = "";
+			}
+			if(angular.isUndefined(item.class)){
+				$scope.column[index]['class'] = "input-sm";
+			}
+			if(angular.isUndefined(item.type)){
+				$scope.column[index]['type'] = "text";
+			}
+			
+		});
+	}
+	
 }])
 
 .directive('mcEdit', function(){
@@ -385,7 +415,7 @@ angular.module('mc.edit', ["template/mcEdit.html","mc.datetimepicker","mc.multip
 		controller:'EditController',
 		templateUrl: 'template/mcEdit.html',
 		link : function (scope, element, attrs, ngModelCtrl) {
-			//console.log(scope.param);
+			console.log(scope.param);
 		}
 	}
 })
@@ -393,14 +423,14 @@ angular.module('mc.edit', ["template/mcEdit.html","mc.datetimepicker","mc.multip
 angular.module("template/mcEdit.html", []).run(["$templateCache", function($templateCache) {
 	$templateCache.put("template/mcEdit.html",
 	" <div class='form-group' ng-repeat='(colIndex,col) in column' ng-show=\"col.type!='id'&&col.type!='seqnum'\">"+
-    " 		<label >{{col.name}}</label>"+
-    "		<input class='form-control input-sm' type='text'  ng-if=\"col.type=='text'\"   ng-model='param[col.key]'>\n"+
-	"		<select class='form-control input-sm'   ng-if=\"col.type=='select'\"    ng-model='param[col.key]'>\n"+
+    " 		<label >{{col.displayName}}</label>"+
+    "		<input class='form-control {{item.class}}' type='text' placeholder='{{col.placeholder}}' width='{{col.width}}' ng-if=\"col.type=='text'\"   ng-model='param[col.key]'>\n"+
+	"		<select class='form-control {{item.class}}' width='{{col.width}}' ng-if=\"col.type=='select'\" ng-model='param[col.key]' ng-options='k as v for (k,v) in col.arr'>\n"+
 	"			<option  value=''> ---请选择--- </option>\n"+
-	"			<option  ng-repeat='(k,v) in col.arr' value='{{k}}'  ng-bind='v'> </option>\n"+
 	"		</select>"+
-	"		<input class='form-control input-sm'  type='text'  ng-if=\"col.type=='datetime'\"  ng-model='param[col.key]' mcdatepicker format='{{col.format}}'>\n"+
-	"		<input class='form-control input-sm'  type='text'  ng-if=\"col.type=='span'\"  ng-model='param[col.key]' disabled>\n"+
+	"		<input class='form-control {{item.class}}' placeholder='{{col.placeholder}}' type='text' width='{{col.width}}' ng-if=\"col.type=='datetime'\"  ng-model='param[col.key]' mcdatepicker format='{{col.format}}'>\n"+
+	"		<input class='form-control {{item.class}}' placeholder='{{col.placeholder}}' type='text' width='{{col.width}}' ng-if=\"col.type=='span'\"  ng-model='param[col.key]' disabled>\n"+
+	"		<textarea class='form-control {{item.class}}' placeholder='{{col.placeholder}}' width='{{col.width}}' ng-if=\"col.type=='textarea'\" rows='3' ng-model='param[col.key]'></textarea>\n"+
 	"</div>"+
 	"");
 }]);
