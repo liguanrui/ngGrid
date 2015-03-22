@@ -1,5 +1,5 @@
 var app = angular.module('myApp', ['ui.mc.grid', 'ui.bootstrap']);
-app.controller('MyCtrl1',function($scope) {
+app.controller('MyCtrl',function($scope) {
     $scope.dataSource = {rows:[{name: "Moroni",age: 50},
 											{name: "Tiancum",age: 43},
 											{name: "Jacob",age: 27},
@@ -8,6 +8,8 @@ app.controller('MyCtrl1',function($scope) {
 								};
 	console.log($scope.dataSource);
     $scope.gridOptions ={columnDefs:[{key: "name",name: "姓名",type: "text"},
-												   {key: "age",name: "年龄",type: "text"}]};
+												   {key: "age",name: "年龄",type: "text"}],
+												   	pagination:false
+						};
 });
  

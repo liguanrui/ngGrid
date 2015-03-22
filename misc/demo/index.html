@@ -95,7 +95,7 @@
 					<strong>这就是表格的简单使用，如右边的例子:</strong><br>
 						</li> 
 						<div style="margin-top: 20px" ng-app="myApp">
-							<div ng-controller="MyCtrl1">
+							<div ng-controller="MyCtrl">
 							 
 								<div mc-grid options="gridOptions" source="dataSource">
 								</div>
@@ -175,46 +175,42 @@
 var GridApp=angular.module('GridModule', ['ui.mc.grid','ui.bootstrap']);
 
 function GridCtrl($http,$scope) {
-	
-	$scope.baseUrl="/api/LibraryList.php?action=";
-	$scope.dataSource={};
-	$scope.chosenItem=null;
+  
+  $scope.baseUrl="http://localhost/ngGrid/index.php/book/";
+   
 
-
-	//@TODO这个最好可以脱离smarty,用MVVC的service？
-	$scope.op= {"category":{"1":"技术类","2":"其他类","3":"专业类","4":"职业习惯类","5":"管理类","6":"美术类","7":"工具类","15":"小说类"}};
+  //@TODO这个最好可以脱离smarty,用MVVC的service？
+  $scope.op= {"category":{"1":"技术类","2":"其他类","3":"专业类","4":"职业习惯类","5":"管理类","6":"美术类","7":"工具类","15":"小说类"}};
  
-	//配置搜索复合器
-	$scope.inputOptions={
-	    combine: [
-		{key:"bid",name:"编号",type:"text",value:""},
-    		{key:"name",name:"书名",type:"text"},
-    		{key:"sort",name:"分类",type:"select",arr:$scope.op.category},
-	    ],
-	    postUrl : $scope.baseUrl+"getList",
-	};
+  //配置表格
+  $scope.gridOptions = {
+    combine: [
+      {key:"BookId",displayName:"编号"},
+      {key:"BookName",displayName:"书名"},
+      {key:"BookSort",displayName:"分类",type:"select",arr:$scope.op.category},
+    ],
+    postUrl : $scope.baseUrl+"getList",
+    columnDefs: [           
+        {key:"index",displayName:"序号",type:"seqnum"},
+        {key:"B_ID",displayName:"编号",type:"id"},
+        {key:"B_Sort",displayName:"分类",type:"select",arr:$scope.op.category},
+        {key:"B_Name",displayName:"书名"},
+        {key:"B_Price",displayName:"价格",cellTemplate:"&lt;span ng-if='row.B_Price'&gt;￥{{row.B_Price}}&lt;/span&gt;"},
+        //{key:"B_AvailNum",displayName:"库存"},
+        {key:"B_BuyTime",displayName:"购买日期",type:"datetime"},
+    ],
+      addBtn : {postUrl:$scope.baseUrl+"insert"},
+      updateBtn : {postUrl:$scope.baseUrl+"update"},
+      deleteBtn : {postUrl:$scope.baseUrl+"del"},
+      pagination : {perPage:15},
+  }
 
-	//配置表头 根据返回的数据格式@dataSource配置
-	$scope.gridOptions={
-	    columnDefs: [          	
-    	      {key:"index",name:"序号",type:"seqnum"},
-    	      {key:"B_ID",name:"编号",type:"id"},
-    	      {key:"B_Sort",name:"分类",type:"select",arr:$scope.op.category},
-    	      {key:"B_Name",name:"书名",type:"text"},
-    	      {key:"B_Price",name:"价格",type:"text",cellTemplate:"&lt;span ng-if='row.B_Price'&gt;￥{{row.B_Price}}&lt;/span&gt;"},
-    	      {key:"B_AvailNum",name:"库存",type:"text"},
-    	      {key:"B_BuyTime",name:"购买日期",type:"datetime"},
-    	    ],
-	    addBtn : {label:"新增",nodeId:"add-model",postUrl:$scope.baseUrl+"insert"},
-	    updateBtn : {label:"更新",nodeId:"update-model",postUrl:$scope.baseUrl+"update"},
-	    deleteBtn : {label:"删除",nodeId:"delete-model",postUrl:$scope.baseUrl+"del"},
-	    pagination : {postUrl:$scope.baseUrl+"getList"},
-	};
 
-	$scope.doSomeThing = function(){
-		console.log($scope.chosenItem);
-	}
-	
+  $scope.doSomeThing = function(){
+    alert("打开开发者工具，打印出结果选中结果")
+    console.log($scope.chosenItem);
+  }
+  
 }
 				</pre>
 			</div>
@@ -401,7 +397,7 @@ function GridCtrl($http,$scope) {
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.0.js"></script>
-	<script type="text/javascript" src="js/Mc.Grid-1.2.js"></script>
+	<script type="text/javascript" src="js/Mc.Grid-1.3.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>
