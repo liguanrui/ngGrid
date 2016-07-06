@@ -1,9 +1,9 @@
 #McGrid
 
-> »ùÓÚangualr µÄÒ»¸öËÉñîºÏµÄ±í¸ñ±à¼­Æ÷,°üº¬±í¸ñËÑË÷×éºÏÆ÷£¬±í¸ñ¡¢·ÖÒ³¡¢¸üĞÂ¡¢ĞÂÔö¡¢É¾³ıµÈ²Ù×÷¡£
+> åŸºäºangualr çš„ä¸€ä¸ªæ¾è€¦åˆçš„è¡¨æ ¼ç¼–è¾‘å™¨,åŒ…å«è¡¨æ ¼æœç´¢ç»„åˆå™¨ï¼Œè¡¨æ ¼ã€åˆ†é¡µã€æ›´æ–°ã€æ–°å¢ã€åˆ é™¤ç­‰æ“ä½œã€‚
 
 ####Preface
-×î½ü¹¤×÷ÔÚÕûÀíÄ³ÏµÍ³µÄÇ°¶Ë²å¼şoperamasks-ui¹ı³ÌÖĞ£¬ÎªÁË¼Ó¿ì¹¤×÷Ğ§ÂÊ¡£ÕûÀíÏà¹ØÒµÎñµÄÒ³Ãæ£¬·¢ÏÖ´ó²¿·Ö¶¼ÊôÓÚÔöÉ¾¸ÄµÄ±í¸ñÕ¹Ê¾ĞÎÊ½£¬ÉÔÎ¢²Î¿¼ÁËopearmasks-uiµÄÊµÏÖ·½Ê½£¬½áºÏangularµÄdirective·â×°´úÂëÆ¬¶ÎµÄ·½·¨¡£¿ªÊ¼×ÅÊÖ¿ª·¢Ò»¸ö»ùÓÚangularµÄGrid×é¼ş¡£
+æœ€è¿‘å·¥ä½œåœ¨æ•´ç†æŸç³»ç»Ÿçš„å‰ç«¯æ’ä»¶operamasks-uiè¿‡ç¨‹ä¸­ï¼Œä¸ºäº†åŠ å¿«å·¥ä½œæ•ˆç‡ã€‚æ•´ç†ç›¸å…³ä¸šåŠ¡çš„é¡µé¢ï¼Œå‘ç°å¤§éƒ¨åˆ†éƒ½å±äºå¢åˆ æ”¹çš„è¡¨æ ¼å±•ç¤ºå½¢å¼ï¼Œç¨å¾®å‚è€ƒäº†opearmasks-uiçš„å®ç°æ–¹å¼ï¼Œç»“åˆangularçš„directiveå°è£…ä»£ç ç‰‡æ®µçš„æ–¹æ³•ã€‚å¼€å§‹ç€æ‰‹å¼€å‘ä¸€ä¸ªåŸºäºangularçš„Gridç»„ä»¶ã€‚
 
 ####Support
 - [AngularJS v1.2.16](http://angularjs.org)
@@ -12,10 +12,10 @@
 - [angular-ui-bootstrap v0.11.0](http://angular-ui.github.io/bootstrap/) 
 
 ####Document
- ÏÂÔØÏîÄ¿£¬´ò¿ªmisc/demo/index.html£¬ÓĞÏêÏ¸ÅäÖÃÎÄµµ¡£
+ ä¸‹è½½é¡¹ç›®ï¼Œæ‰“å¼€misc/demo/index.htmlï¼Œæœ‰è¯¦ç»†é…ç½®æ–‡æ¡£ã€‚
 
 ####download
-ºËĞÄ´úÂëÕûÀíµ½libÄ¿Â¼ÏÂ¡£
+æ ¸å¿ƒä»£ç æ•´ç†åˆ°libç›®å½•ä¸‹ã€‚
 
 ####Version
 - 2015-03-07 v1.1
@@ -25,67 +25,67 @@
 
 ####ChangeLog
 
-1. È¥µô mcInput£¬Ïà¹Ø¹¦ÄÜºÏ²¢µ½mcGrid¡£
+1. å»æ‰ mcInputï¼Œç›¸å…³åŠŸèƒ½åˆå¹¶åˆ°mcGridã€‚
 
 		    options={
 		        combine : [
 		            *key : 
-		            *displayName : //Ô­À´ÊÇname
+		            *displayName : //åŸæ¥æ˜¯name
 		            value :
-		            type : //£¨text/select/datetime/£©Ä¬ÈÏÊÇtext
-		            arr : //ÏÂÀ­¿òµÄjsonÊı×é
-		            format£º//datetimeµÄÅäÖÃ
-		            placeholder : //ÌáÊ¾
-		            width : //³¤¶È
-		            class: //´óĞ¡
+		            type : //ï¼ˆtext/select/datetime/ï¼‰é»˜è®¤æ˜¯text
+		            arr : //ä¸‹æ‹‰æ¡†çš„jsonæ•°ç»„
+		            formatï¼š//datetimeçš„é…ç½®
+		            placeholder : //æç¤º
+		            width : //é•¿åº¦
+		            class: //å¤§å°
 		        ],
-		        postUrl : //»ñÈ¡Êı¾İÔ´µÄ½Ó¿Ú£¬ËÑË÷ºÍ·ÖÒ³¶¼»áÓÃµ½
+		        postUrl : //è·å–æ•°æ®æºçš„æ¥å£ï¼Œæœç´¢å’Œåˆ†é¡µéƒ½ä¼šç”¨åˆ°
 		        *columnDefs : [
 		            *key :
-		            *displayName: //Ô­À´ÊÇname
-		            type : //£¨text/span/select/datetime/textarea/id/select2£©Ä¬ÈÏÊÇtext£¬Ôö¼Ótextarea£¬id¾¡Á¿ÉÙÓÃÓĞ¿ÉÄÜ·Ï³ı
-		            arr : //ÏÂÀ­¿òµÄjsonÊı×é
-		            format£º//datetimeµÄÅäÖÃ£¬ÅĞ¶ÏÊ±¼äÎªint¿ÉÒÔË³±ã°´ÕÕformat×ª»»¸ñÊ½
+		            *displayName: //åŸæ¥æ˜¯name
+		            type : //ï¼ˆtext/span/select/datetime/textarea/id/select2ï¼‰é»˜è®¤æ˜¯textï¼Œå¢åŠ textareaï¼Œidå°½é‡å°‘ç”¨æœ‰å¯èƒ½åºŸé™¤
+		            arr : //ä¸‹æ‹‰æ¡†çš„jsonæ•°ç»„
+		            formatï¼š//datetimeçš„é…ç½®ï¼Œåˆ¤æ–­æ—¶é—´ä¸ºintå¯ä»¥é¡ºä¾¿æŒ‰ç…§formatè½¬æ¢æ ¼å¼
 		            cellTemplate : 
-		            placeholder : //ÌáÊ¾
-		            width : //³¤¶È
-		            class: //´óĞ¡
-		            required : //¼ìÑé
+		            placeholder : //æç¤º
+		            width : //é•¿åº¦
+		            class: //å¤§å°
+		            required : //æ£€éªŒ
 		        ],
 		        addBtn : [
-		            modalHead : //Ô­À´ÊÇlabel 
-		            nodeId : //È¥µô
+		            modalHead : //åŸæ¥æ˜¯label 
+		            nodeId : //å»æ‰
 		            *postUrl :
-		            postfn : //×Ô¶¨Òåfunction£¿
+		            postfn : //è‡ªå®šä¹‰functionï¼Ÿ
 		        ],
 		        updateBtn : [
-		            modalHead : //Ô­À´ÊÇlabel 
-		            nodeId :  //È¥µô
+		            modalHead : //åŸæ¥æ˜¯label 
+		            nodeId :  //å»æ‰
 		            *postUrl :
 		        ],
 		        delBtn : [
-		            modalHead : //Ô­À´ÊÇlabel 
-		            nodeId :  //È¥µô
+		            modalHead : //åŸæ¥æ˜¯label 
+		            nodeId :  //å»æ‰
 		            *postUrl :
 		        ],
 		        pagination: [
 		            postUrl :
-		            perPage : //Ô­À´limit
+		            perPage : //åŸæ¥limit
 		            maxSize : 
-		            setPage : //Ôö¼ÓÌø×ªjump£¿
-		        ],//Ä¬ÈÏÏÔÊ¾·ÖÒ³£¬¿ÉÒÔÅäÖÃfalse
+		            setPage : //å¢åŠ è·³è½¬jumpï¼Ÿ
+		        ],//é»˜è®¤æ˜¾ç¤ºåˆ†é¡µï¼Œå¯ä»¥é…ç½®false
 		    }
 
-2. mcmodelĞŞ¸ÄÎªmcmodal£¬modal-bodyºÍmodal-footerÏà¹Ø´úÂëÕûÀíµ½´úÂëÆ¬¶Î£¬Ôö¼ÓmodalfnÀ´´«µİµã»÷È·¶¨Ö´ĞĞµÄfunction¡£¾ßÌå¿ÉÒÔ²Î¿¼ÒÔ²ÎÊıÁĞ±í
-3. mcGridÄÚ²¿´úÂëÕûÀí£¬È¥µôÖ®Ç°¹ı¶àµÄng-ifÅĞ¶Ï£¬ĞŞ¸ÄÎª`Ô¤´¦Àí`+`compile`À´±àÒëhtmlÄ£°åµÄĞÎÊ½¡£
-4. mcGridµÄattr²ÎÊıÁĞ±í£º
+2. mcmodelä¿®æ”¹ä¸ºmcmodalï¼Œmodal-bodyå’Œmodal-footerç›¸å…³ä»£ç æ•´ç†åˆ°ä»£ç ç‰‡æ®µï¼Œå¢åŠ modalfnæ¥ä¼ é€’ç‚¹å‡»ç¡®å®šæ‰§è¡Œçš„functionã€‚å…·ä½“å¯ä»¥å‚è€ƒä»¥å‚æ•°åˆ—è¡¨
+3. mcGridå†…éƒ¨ä»£ç æ•´ç†ï¼Œå»æ‰ä¹‹å‰è¿‡å¤šçš„ng-ifåˆ¤æ–­ï¼Œä¿®æ”¹ä¸º`é¢„å¤„ç†`+`compile`æ¥ç¼–è¯‘htmlæ¨¡æ¿çš„å½¢å¼ã€‚
+4. mcGridçš„attrå‚æ•°åˆ—è¡¨ï¼š
 
 		.directive("mcGrid", function() {
 		return {
 			restrict: "EA",
 			scope: {
 				options: "=",
-				source: "=?", //¿É²»¶¨ÒåµÄ
+				source: "=?", //å¯ä¸å®šä¹‰çš„
 				chosen: "=?",
 				param: "=?",
 				pagefn: "=?",
@@ -100,7 +100,9 @@
 });
 		
 ####TodoList
-¾ßÌå²é¿´issues
+å…·ä½“æŸ¥çœ‹issues
+
+####å‡†å¤‡æ›´æ–°
 		
 		
 
